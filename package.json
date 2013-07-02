@@ -1,5 +1,5 @@
 {
-    "name" : "services",
+    "name" : "restapi",
     "description": "A tool to document emulate and test RESTful APIs.",
     "version" : "0.0.1",
     "private" : true,
@@ -17,7 +17,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "http://github.com/tombenke/services.git"
+        "url": "http://github.com/tombenke/restapi.git"
     },
     "main" : "main.js",
     "dependencies" : {
