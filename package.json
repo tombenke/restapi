@@ -1,0 +1,27 @@
+{
+    "name" : "services",
+    "description": "A tool to document emulate and test RESTful APIs.",
+    "version" : "0.0.1",
+    "private" : true,
+    "tags": [
+        "rest",
+        "restful",
+        "api",
+        "docs",
+        "util",
+        "utility"
+    ],
+    "author": {
+        "name": "Tamás Benke",
+        "email": "tombenke@gmail.com"
+    },
+    "repository": {
+        "type": "git",
+        "url": "http://github.com/tombenke/services.git"
+    },
+    "main" : "main.js",
+    "dependencies" : {
+        "js-yaml" : "*",
+        "should" : "*"
+    }
+}
