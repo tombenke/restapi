@@ -19,8 +19,13 @@
         "type": "git",
         "url": "http://github.com/tombenke/restapi.git"
     },
+    "bin": {
+        "restapi": "./bin/rasgen.js",
+        "rasgen": "./bin/rasgen.js"
+    },
     "main" : "main.js",
     "dependencies" : {
+        "commander": "*",
         "js-yaml" : "*",
         "should" : "*"
     }
