@@ -1,0 +1,84 @@
+name: Customer service
+description: This is the description of the service to customer resources
+urlPattern: /customers
+style: RESOURCE
+methods:
+    GET:
+        summary: list all the customers
+        notes:
+        implementation: api.getCustomers
+        request:
+            parameters: []
+            cookies: []
+            headers:
+                Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+                Accept-Encoding: "gzip, deflate"
+        responses:
+            OK:
+                statusCode: 200
+                reason: Successful execution
+                validationSchema: getCustomers-responseBody-validationSchema.json
+                cookies: []
+                headers:
+                    Content-Type: application/json
+                    X-Application-Version: v0.4 # This value must be parametric
+                    X-Application-API-Version: v0.1 # This value must be parametric
+                mockBody: getCustomers.json
+        testCases:
+            getCustomers:
+                description: Successfully retrieves all the customers
+                url: /customers
+                template: testGetMethod.mustache
+                request:
+                    cookies: []
+                    headers:
+                        Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+                        Accept-Encoding: "gzip, deflate"
+                response:
+                    statusCode: 200
+                    cookies: []
+                    headers:
+                        Content-Type: application/json
+                        X-Application-Version: v0.4 # This value must be parametric
+                        X-Application-API-Version: v0.1 # This value must be parametric
+                    validationSchema: customerList.json
+
+    POST:
+        summary: Create a new customer
+        notes:
+        implementation: api.postCustomer
+        request:
+            parameters: []
+            cookies: []
+            headers:
+                Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+                Accept-Encoding: "gzip, deflate"
+        responses:
+            OK:
+                statusCode: 200
+                reason: Successful execution
+                validationSchema: getCustomers-responseBody-validationSchema.json
+                cookies: []
+                headers:
+                    Content-Type: application/json
+                    X-Application-Version: v0.4 # This value must be parametric
+                    X-Application-API-Version: v0.1 # This value must be parametric
+        testCases:
+            createCustomer:
+                description: Succesfully creates a new customer
+                url: /customers
+                template: testPostMethod.mustache
+                request:
+                    cookies: []
+                    headers:
+                        Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+                        Accept-Encoding: "gzip, deflate"
+                    body: newCustomer.json
+                response:
+                    statusCode: 200
+                    cookies: []
+                    headers:
+                        Content-Type: application/json
+                        X-Application-Version: v0.4 # This value must be parametric
+                        X-Application-API-Version: v0.1 # This value must be parametric
+                    validationSchema: createdCustomer.json

@@ -46,17 +46,7 @@ function getActiveServices(servicesRoot) {
     var services = require('restapi')({
         servicesRoot: servicesRoot,
         services: [
-            "/Environment/VersionInfo",
-            "/Configuration/Configuration",
-            "/ShiftManagement/isAirportDecentralized",
-            "/Flight/AssignOneToAgent",
-            "/Flight/AssignToAgent",
-            "/Flight/AllFlights",
-            "/Flight/Legs",
-            "/Flight/Flights",
-            "/Flight/MyFlights",
-            "/Security/Login",
-            "/Security/Logoff"
+            "/customers"
         ]});
 
     // console.log(JSON.stringify(services,null,'  '));
@@ -95,4 +85,4 @@ function getDirectServices(services) {
     return directServices;
 }
 
-console.log(JSON.stringify(getDirectServices(getActiveServices(__dirname + '/../../../resources/services')), null, '    '));
+console.log(JSON.stringify(getDirectServices(getActiveServices(__dirname + examples')), null, '    '));
