@@ -22,7 +22,7 @@
   "bin": {
     "restapi": "./bin/restapi.js"
   },
-  "main": "main.js",
+  "main": "index",
   "dependencies": {
     "commander": "*",
     "proper": "git+https://github.com/tombenke/proper.git#v0.2.0",

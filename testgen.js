@@ -14,5 +14,15 @@ exports.update = function ( config, overwrite, mode ) {
     } else {
         console.log('Existing files will not be overwritten');
     }
+    var pathSep = require('path').sep;
+
+    var services = require('./services.js');
+    services.load( process.cwd() + pathSep + config.servicesRoot, config.services);
+    verbose && console.log(services.getServices());
+
+    var allTestCases = services.getAllTestCases();
+    verbose && console.log('All TestCases: ', allTestCases);
+
+    //TODO Generate the test cases
 }
 

@@ -19,15 +19,12 @@
         verbose && console.log('Read configuration from ' + fileName);
         var pathSep = require('path').sep;
         var inFileName = process.cwd() + pathSep + fileName;
-
-        verbose && console.log( 'input file: ', inFileName );
         var config = require( inFileName );
-
         // TODO: validate config
-
         return config;
     };
 
+    // Setup the project generator command
     program
         .version(thisPackage.version)
         .command('create <project-name>')
@@ -38,6 +35,7 @@
                 require('../prjgen.js').create(projectName, verbose);
             });
 
+    // Setup the document generator command
     program
         .command('doc')
         .description('Documentation management')
@@ -50,6 +48,7 @@
                 }
             });
 
+    // Setup the test generator command
     program
         .command('test')
         .description('Test cases management')
@@ -65,5 +64,4 @@
             });
 
     program.parse(process.argv);
-
 })();

@@ -57,6 +57,7 @@ var validateServiceDescriptor = function (serviceDesc) {
     serviceDesc.should.have.property('urlPattern');
     serviceDesc.should.have.property('style');
     serviceDesc.should.have.property('methods');
+
     serviceDesc.methods.should.be.a('object');
 
     for( var method in serviceDesc.methods ) {
@@ -64,26 +65,33 @@ var validateServiceDescriptor = function (serviceDesc) {
             ['GET', 'PUT', 'POST', 'DELETE'].should.include( method );
             var serviceMethod = serviceDesc.methods[method];
             serviceMethod.should.be.a('object');
-            serviceMethod.should.have.property('parameters').and.be.an.instanceOf(Array);
-            serviceMethod.parameters.forEach(function(parameter){validateServiceParameter(parameter)});
+            serviceMethod.should.have.property('summary');
+            serviceMethod.should.have.property('notes');
+            serviceMethod.should.have.property('implementation');
+            serviceMethod.should.have.property('request');
+            serviceMethod.should.have.property('responses');
+            serviceMethod.should.have.property('testCases');
 
-            serviceMethod.should.have.property('statusCodes').and.be.an.instanceOf(Array);
-            serviceMethod.statusCodes.forEach(function(statusCode){validateServiceStatusCode(statusCode)});
+            serviceMethod.request.should.have.property('parameters').and.be.an.instanceOf(Array);
+            serviceMethod.request.parameters.forEach(function(parameter){validateServiceParameter(parameter)});
 
-            serviceMethod.should.have.property('cookies').and.be.an.instanceOf(Array);
+            // serviceMethod.should.have.property('statusCodes').and.be.an.instanceOf(Array);
+            // serviceMethod.statusCodes.forEach(function(statusCode){validateServiceStatusCode(statusCode)});
+
+            serviceMethod.request.should.have.property('cookies').and.be.an.instanceOf(Array);
             // TODO: validate the array items
-            serviceMethod.cookies.forEach(function(cookie){validateServiceCookie(cookie)});
+            serviceMethod.request.cookies.forEach(function(cookie){validateServiceCookie(cookie)});
 
-            serviceMethod.should.have.property('examples').and.be.a('object');
+            // serviceMethod.should.have.property('examples').and.be.a('object');
             // TODO: validate the array items
             // serviceMethod.examples.forEach(function(example){validateServiceExample(example)});
 
-            serviceMethod.should.have.property('responseValidationSchema');
+            // serviceMethod.should.have.property('responseValidationSchema');
         }
     }
 }
 
-var load = function(baseFolder, servicesToLoad) {
+exports.load = function(baseFolder, servicesToLoad) {
     // serviceFolders
     servicesToLoad.forEach(function (servicePath) {
         var serviceDescriptorFileName = baseFolder + servicePath + '/service.yml';
@@ -104,14 +112,53 @@ var load = function(baseFolder, servicesToLoad) {
     return services;
 };
 
-var loadContent = function (contentFileName) {
-    var content = require(contentFileName);
-    return content;
-};
+// exports = module.exports = function Services(opts) {
+//     load(opts.servicesRoot, opts.services);
+//     return services;
+// }
 
-exports = module.exports = function Services(opts) {
-    load(opts.servicesRoot, opts.services);
+exports.getServices = function () {
     return services;
 }
 
-exports.loadContent = loadContent;
+exports.getAllTestCases = function () {
+    var testCases = [];
+
+    for (var service in services ) {
+        if ( services.hasOwnProperty(service) ) {
+            console.log('get test cases of ' + service);
+            var serviceDesc = services[service];
+            for (var method in serviceDesc.methods ) {
+                if( serviceDesc.methods.hasOwnProperty(method) ) {
+                    var methodDesc = serviceDesc.methods[method];
+                    for (var testCase in methodDesc.testCases ) {
+                        if( methodDesc.testCases.hasOwnProperty(testCase) ) {
+                            var testCaseDesc = methodDesc.testCases[testCase];
+                            testCases.push({
+                                service: {
+                                    name: serviceDesc.name,
+                                    description: serviceDesc.description,
+                                    urlPattern: serviceDesc.urlPatern,
+                                    style: serviceDesc.style
+                                },
+                                method: method,
+                                testCase: {
+                                    name: testCase,
+                                    description: testCaseDesc.description,
+                                    url: testCaseDesc.url,
+                                    template: testCaseDesc.template,
+                                    request: testCaseDesc.request,
+                                    response: testCaseDesc.response
+                                }
+                            });
+                        }
+                    }
+                }
+            };
+        }
+    }
+    return testCases;
+}
+
+// exports.load = load;
+// exports.getAllTestCases = getAllTestCases;

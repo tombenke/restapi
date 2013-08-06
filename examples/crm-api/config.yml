@@ -2,3 +2,6 @@ baseUrl: http://localhost:3007/rest
 loginCredentials:
     user: John
     pass: Doe
+servicesRoot: services
+services:
+    - /customers

@@ -21,7 +21,6 @@ function getFileNames(path, extension)
     return fileNames;
 }
 
-
 function processFiles( config ) {
     verbose = config.verbose;
     getFileNames(config.fromDir, config.fromExt).forEach( function( fileName ) {
