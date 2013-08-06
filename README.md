@@ -39,11 +39,11 @@ Makefile
 
 Generate a new REST API project:
 
-    $ restapi init <project-name>
+    $ restapi create <project-name>
 
 for example:
 
-    $ restapi init crm-api
+    $ restapi create crm-api
 
 Update(/generate) documentations:
 

@@ -1,12 +1,11 @@
 #!/usr/bin/env node
 /**
- * RestApi Specification Generator utility
+ * RestApi command-line utility
  */
 (function() {
     var verbose = false;
     var fs = require('fs');
     var jsyaml = require( 'js-yaml' );
-    var engine = require('proper');
     var program = require('commander');
     var thisPackage = require(__dirname + '/../package.json');
     program._name = thisPackage.name;
@@ -17,45 +16,54 @@
      * @return {Object}          The configuration object
      */
     var readConfig = function( fileName ) {
-        console.log('Read configuration from ' + fileName);
+        verbose && console.log('Read configuration from ' + fileName);
         var pathSep = require('path').sep;
         var inFileName = process.cwd() + pathSep + fileName;
 
-        console.log( 'input file: ', inFileName );
+        verbose && console.log( 'input file: ', inFileName );
         var config = require( inFileName );
 
         // TODO: validate config
 
-        for ( var procs in config ) {
-            if ( config.hasOwnProperty(procs) ) {
-                config[procs].forEach(function(proc){
-                    if ( proc.hasOwnProperty('fileName') ) {
-                        proc.fileName = process.cwd() + pathSep + proc.fileName;
-                    }
-                });
-            }
-        }
         return config;
     };
 
     program
         .version(thisPackage.version)
-        .command('docgen [target]')
-        .description('Generate documentation')
-        .option("-s, --standalone", "Creates a standalone copy of API specifications for docs")
-        .action(function(target, options) {
-                var mode = options.standalone || false;
-                target = target || 'local';
-                console.log('Generate docs for "%s" target with %s mode', target, mode);
+        .command('create <project-name>')
+        .description('Create a new REST API project')
+        .option("-v, --verbose", "Verbose mode", Boolean, false)
+        .action(function(projectName, options) {
+                verbose = options.verbose;
+                require('../prjgen.js').create(projectName, verbose);
+            });
+
+    program
+        .command('doc')
+        .description('Documentation management')
+        .option("-u, --update", "Generate the HTML format documentation")
+        .option("-v, --verbose", "Verbose mode", Boolean, false)
+        .action(function(options) {
+                verbose = options.verbose;
+                if( options.update ) {
+                    require('../docgen.js').update(verbose);
+                }
+            });
+
+    program
+        .command('test')
+        .description('Test cases management')
+        .option("-u, --update", "Update the test cases or create them, if they are missing")
+        .option("-o, --overwrite", "Overwrite the existing files")
+        .option("-c, --config <configFileName>", "The name of the configuration file (default: config.yml)", String, 'config.yml')
+        .option("-v, --verbose", "Verbose mode", Boolean, false)
+        .action(function(options) {
+                verbose = options.verbose;
+                if( options.update ) {
+                    require('../testgen.js').update(readConfig(options.config), options.overwrite || false, verbose);
+                }
             });
 
     program.parse(process.argv);
 
-    // console.log(program);
-    // if ( program.config && program.config !=="" ) {
-    //     // console.log('configuration ', readConfig(program.config));
-    //     engine.run( readConfig(program.config) );
-    // } else {
-    //     program.help();
-    // }
 })();
