@@ -24,5 +24,6 @@ exports.update = function ( config, overwrite, mode ) {
     verbose && console.log('All TestCases: ', allTestCases);
 
     //TODO Generate the test cases
+    return true;
 }
 

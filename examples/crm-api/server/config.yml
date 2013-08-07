@@ -1,0 +1,36 @@
+## The server config file
+
+# Use this environment by default, if server is started without the --env switch.
+useEnvironment: development
+#useEnvironment: production
+
+environments:
+
+  # This is the default configuration set
+  default:
+    appName: CRM
+    documentRoot: .
+    port: 3007
+    servicesRoot: ../services
+    serviceUrlPrefix: /rest
+    services:
+        - /customers
+    useRemoteServices: false
+
+  # Override the default config parameters with values specific to the development environment
+  development:
+    port: 3007
+    documentRoot: ../webui
+
+  # development environment with proxying the 'serviceUrlPrefix' requests to the local host
+  devProxy:
+    port: 3006
+    documentRoot: ../webui
+    useRemoteServices: true
+    remoteHost: localhost
+    remotePort: 3008
+
+  # production environment specific values
+  production:
+    port: 3008
+    documentRoot: ../webui/build/CRM/production

@@ -67,7 +67,7 @@ var validateServiceDescriptor = function (serviceDesc) {
             serviceMethod.should.be.a('object');
             serviceMethod.should.have.property('summary');
             serviceMethod.should.have.property('notes');
-            serviceMethod.should.have.property('implementation');
+            // serviceMethod.should.have.property('implementation');
             serviceMethod.should.have.property('request');
             serviceMethod.should.have.property('responses');
             serviceMethod.should.have.property('testCases');
@@ -112,10 +112,21 @@ exports.load = function(baseFolder, servicesToLoad) {
     return services;
 };
 
-// exports = module.exports = function Services(opts) {
-//     load(opts.servicesRoot, opts.services);
-//     return services;
-// }
+var loadFile = function (contentFileName) {
+    var content = require(contentFileName);
+    return content;
+};
+
+exports.getMockResponseBody = function(method, serviceDesc) {
+    var mockResponseBody = false;
+
+    var mockBody = serviceDesc.methods[method].responses.OK.mockBody || '';
+    console.log('mockBody: ', mockBody);
+    if ( mockBody !== '' ) {
+        mockResponseBody = loadFile(serviceDesc.contentPath + '/' + mockBody);
+    }
+    return mockResponseBody;
+}
 
 exports.getServices = function () {
     return services;
@@ -159,6 +170,3 @@ exports.getAllTestCases = function () {
     }
     return testCases;
 }
-
-// exports.load = load;
-// exports.getAllTestCases = getAllTestCases;
