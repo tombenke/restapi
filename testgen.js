@@ -49,5 +49,3 @@ exports.update = function ( config, overwrite, mode ) {
             });
     });
 };
-
-
