@@ -23,7 +23,7 @@ methods:
                     Content-Type: application/json
                     X-Application-Version: v0.4 # This value must be parametric
                     X-Application-API-Version: v0.1 # This value must be parametric
-                mockBody: getCustomers.json
+                mockBody: getCustomers-responseBody.json
         testCases:
             getCustomers:
                 description: Successfully retrieves all the customers
@@ -63,6 +63,7 @@ methods:
                     Content-Type: application/json
                     X-Application-Version: v0.4 # This value must be parametric
                     X-Application-API-Version: v0.1 # This value must be parametric
+                mockBody: postCustomer-responseBody.json
         testCases:
             createCustomer:
                 description: Succesfully creates a new customer
