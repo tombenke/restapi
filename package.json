@@ -27,6 +27,9 @@
     "commander": "*",
     "proper": "git+https://github.com/tombenke/proper.git#v0.2.0",
     "js-yaml": "*",
-    "should": "*"
+    "should": "*",
+    "mu2": "*",
+    "mocha": "*",
+    "superagent": "*"
   }
 }

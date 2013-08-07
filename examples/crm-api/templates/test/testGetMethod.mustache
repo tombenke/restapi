@@ -5,13 +5,10 @@ var request = require('superagent'),
 describe('{{description}}', function() {
 	var agent = request.agent();
 
-	it('should successfully {{description}}', function(done) {
-		var path = require('path');
-		var body = require(path.join(__dirname, '..', 'bodies', '{{body}}'));
+	it('should {{description}}', function(done) {
 		agent
-			.post('{{baseUrl}}{{url}}')
+			.get('{{baseUrl}}{{url}}')
 			{{#loginCredentials}}.auth('{{user}}', '{{pass}}'){{/loginCredentials}}
-			.send(body)
 			.set('Accept', 'application/json')
 			.end(function(err, res) {
 				should.not.exist(err);
@@ -19,6 +16,7 @@ describe('{{description}}', function() {
 				res.should.have.property('body');
 				// FIXME add further checks if appropriate
 				{{#jsonschema}}
+				var path = require('path');
 				var JaySchema = require('jayschema');
 				var js = new JaySchema(JaySchema.loaders.http);
 				var schema = require(path.join(__dirname, '..', 'schemas', '{{jsonschema}}.json'));

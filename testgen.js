@@ -1,3 +1,6 @@
+var mu = require('mu2'),
+    fs = require('fs'),
+    extend = require('./extend.js');
 var verbose = false;
 
 /**
@@ -14,7 +17,8 @@ exports.update = function ( config, overwrite, mode ) {
     } else {
         console.log('Existing files will not be overwritten');
     }
-    var pathSep = require('path').sep;
+    var path = require('path'),
+        pathSep = path.sep;
 
     var services = require('./services.js');
     services.load( process.cwd() + pathSep + config.servicesRoot, config.services);
@@ -23,6 +27,28 @@ exports.update = function ( config, overwrite, mode ) {
     var allTestCases = services.getAllTestCases();
     verbose && console.log('All TestCases: ', allTestCases);
 
-    //TODO Generate the test cases
-}
+    allTestCases.forEach(function(item) {
+        var testCase = item.testCase,
+            templateFileName = path.join(process.cwd(), 'templates', 'test', testCase.template),
+            fileName = path.join(process.cwd(), 'test', testCase.name + '.js'),
+            buffer = '',
+            view = {};
+        verbose && console.log('templateFileName: ' + templateFileName);
+        verbose && console.log('fileName: ' + fileName);
+
+        extend(view, config, testCase);
+
+        mu.compileAndRender(templateFileName, view)
+            .on('data', function(c) {
+                buffer += c.toString();
+            })
+            .on('end', function() {
+                fs.writeFile(fileName, buffer, function(err) {
+                    if (err) throw err;
+                });
+            });
+
+    });
+
+};
 
