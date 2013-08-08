@@ -32,8 +32,17 @@
         .option("-v, --verbose", "Verbose mode", Boolean, false)
         .action(function(projectName, options) {
                 verbose = options.verbose;
-                require('../prjgen.js').create(projectName, verbose);
-            });
+                require('../prjgen.js').create({
+                        projectName: projectName,
+                        port: "3007",
+                        urlPrefix: "/rest",
+                        username: "username",
+                        password: "password",
+                        servicesRoot: "services",
+                        author: "TBD.",
+                        licence: "TBD."
+                    }, verbose);
+                });
 
     // Setup the document generator command
     program

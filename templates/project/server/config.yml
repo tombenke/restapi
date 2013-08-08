@@ -1,0 +1,37 @@
+## The server config file
+
+# Use this environment by default, if server is started without the --env switch.
+useEnvironment: development
+#useEnvironment: production
+
+environments:
+
+  # This is the default configuration set
+  default:
+    appName: {{projectName}}
+    documentRoot: .
+    port: {{port}}
+    servicesRoot: ../{{servicesRoot}}
+    serviceUrlPrefix: {{urlPrefix}}
+    services:
+        - /monitoring/isAlive
+    useRemoteServices: false
+    apiVersion: v0.0.0
+
+  # Override the default config parameters with values specific to the development environment
+  development:
+    port: {{port}}
+    documentRoot: ../webui
+
+  # development environment with proxying the 'serviceUrlPrefix' requests to the local host
+  devProxy:
+    port: 3006
+    documentRoot: ../webui
+    useRemoteServices: true
+    remoteHost: localhost
+    remotePort: 3008
+
+  # production environment specific values
+  production:
+    port: 3008
+    documentRoot: ../webui/build/{{projectName}}/production

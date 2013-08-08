@@ -1,0 +1,45 @@
+name: Monitoring that server is alive
+description: |
+    It is a very simple service, 
+    which makes possible to monitor that the server is running
+    and is able answer HTTP requests
+urlPattern: /monitoring/isAlive
+style: OPERATION
+methods:
+    GET:
+        summary: Is server alive?
+        notes: Responses true if server is working
+        implementation: monitoring.isAlive
+        request:
+            parameters: []
+            cookies: []
+            headers:
+                Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+                Accept-Encoding: "gzip, deflate"
+        responses:
+            OK:
+                statusCode: 200
+                reason: Successful execution
+                validationSchema: getIsAlive-responseBody-validationSchema.json
+                cookies: []
+                headers:
+                    Content-Type: application/json
+                    X-Application-API-Version: v0.0.0
+                # mockBody: getIsAlive-responseBody.json
+        testCases:
+            getCustomers:
+                description: Successfully checks if server is alive
+                url: /monitoring/isAlive
+                template: testGetMethod.mustache
+                request:
+                    cookies: []
+                    headers:
+                        Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+                        Accept-Encoding: "gzip, deflate"
+                response:
+                    statusCode: 200
+                    cookies: []
+                    headers:
+                        Content-Type: application/json
+                        X-Application-API-Version: v0.0.0
+                    validationSchema: getIsAlive-responseBody-validationSchema.json

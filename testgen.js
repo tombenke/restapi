@@ -38,6 +38,7 @@ exports.update = function ( config, overwrite, mode ) {
 
         extend(view, config, testCase);
 
+        // verbose && console.log('template context:', view);
         mu.compileAndRender(templateFileName, view)
             .on('data', function(c) {
                 buffer += c.toString();

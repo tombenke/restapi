@@ -1,0 +1,7 @@
+baseUrl: http://localhost:3007/rest
+loginCredentials:
+    user: username
+    pass: password
+servicesRoot: services
+services:
+    - /monitoring/isAlive

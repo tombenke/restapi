@@ -1,0 +1,7 @@
+baseUrl: http://localhost:{{port}}{{urlPrefix}}
+loginCredentials:
+    user: {{username}}
+    pass: {{password}}
+servicesRoot: {{servicesRoot}}
+services:
+    - /monitoring/isAlive
