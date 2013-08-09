@@ -1,7 +1,4 @@
-# Generate documentation
+# restapi docs generator templates
 
-The HTML format documentation of the REST API will be generated here.
+This is a folder to hold the templates and other files to generate HTML format documentation from service descriptors.
 
-Execute the following command in the project folder:
-
-    restapi docs --update

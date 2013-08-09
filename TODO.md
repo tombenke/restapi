@@ -1,5 +1,6 @@
 # TODO
 
+- Known BUG: Schema validation does not work properly (see examples/crm-api)
 - Rename templates to use .mu postfixes, and put them onto whitelist during dir-copy of prjgen
 - Read parameters for docgen and prjgen contexts (replace hardcoded objects)
 - Implement the docgen
