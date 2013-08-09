@@ -12,14 +12,30 @@ describe('Succesfully creates a new customer', function() {
 			.post('http://localhost:3007/rest/customers')
 			.auth('John', 'Doe')
 			.send(body)
-			.set('Accept', 'application/json')
+			.set('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
+			.set('Accept-Encoding', 'gzip, deflate')
 			.end(function(err, res) {
+				// console.log(res);
 				should.not.exist(err);
 				res.should.have.status(200);
+				
+				res.headers['content-type'].should.equal('application/json');
+				
+				res.headers['x-crm-version'].should.equal('v0.1');
+				
+				res.headers['x-crm-api-version'].should.equal('v0.1');
+				
 				res.should.have.property('body');
 				// FIXME add further checks if appropriate
-				
-				done();
+				var JaySchema = require('jayschema');
+				var js = new JaySchema(JaySchema.loaders.http);
+				// done();
+				var schema = require(path.join(__dirname, '../services/customers', 'createdCustomer.json'));
+				console.log(schema, res.body);
+				js.validate(res.body, schema, function(errs) {
+					should.not.exist(errs);
+					done();
+				});
 			});
 	});
 });

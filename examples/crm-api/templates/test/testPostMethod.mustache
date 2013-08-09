@@ -7,27 +7,36 @@ describe('{{description}}', function() {
 
 	it('should successfully {{description}}', function(done) {
 		var path = require('path');
+//<<<<<<< HEAD
 		var body = require(path.join(__dirname, '..', 'bodies', '{{body}}'));
+//=======
+//		var body = require(path.join(__dirname, '..', 'services', 'customers', '{{request.body}}'));
+//>>>>>>> 9ebd3f3e9e7c254c784d0a83dcbb05bec39c956e
 		agent
 			.post('{{baseUrl}}{{url}}')
 			{{#loginCredentials}}.auth('{{user}}', '{{pass}}'){{/loginCredentials}}
 			.send(body)
-			.set('Accept', 'application/json')
+			{{#request.headers}}
+			.set('{{field}}', '{{content}}')
+			{{/request.headers}}
 			.end(function(err, res) {
 				should.not.exist(err);
-				res.should.have.status(200);
+				res.should.have.status({{response.statusCode}});
+				{{#response.headers}}
+				res.headers['{{field}}'].should.equal('{{content}}');
+				{{/response.headers}}
 				res.should.have.property('body');
 				// FIXME add further checks if appropriate
-				{{#jsonschema}}
+				{{#response.validationSchema}}
 				var JaySchema = require('jayschema');
 				var js = new JaySchema(JaySchema.loaders.http);
-				var schema = require(path.join(__dirname, '..', 'schemas', '{{jsonschema}}.json'));
+				var schema = require(path.join(__dirname, '..', 'schemas', '{{response.validationSchema}}'));
 				js.validate(res.body, schema, function(errs) {
 					should.not.exist(errs);
 					done();
 				});
-				{{/jsonschema}}
-				{{^jsonschema}}done();{{/jsonschema}}
+				{{/response.validationSchema}}
+				{{^response.validationSchema}}done();{{/response.validationSchema}}
 			});
 	});
 });
