@@ -1,87 +1,67 @@
-function saveToJson( obj, toFileName ) {
-    verbose && console.log( '  ...saving JSON to ' + toFileName);
-    fs.writeFileSync( toFileName, JSON.stringify( obj, ' ', 4 ), encoding='utf8' );
-}
+var mu = require('mu2'),
+    fs = require('fs'),
+    path = require('path'),
+    wrench = require('wrench'),
+    extend = require('./extend.js');
+var verbose = true;
 
-/* Returns with the list of file names without the extension */
-function getFileNames(path, extension)
-{
-    var docPath = __dirname + '/' + path;
-    var fileNames = [];
-    var findPattern = new RegExp("." + extension + "$");
-    var replacePattern = new RegExp("." + extension + "$","g");
-    fs.readdirSync( docPath ).forEach( function(fileName ) {
-        if( fileName.match( findPattern ) ) {
-            fileNames.push( fileName.replace( replacePattern, "" ) );
+exports.createDirectoryTree = function(rootDirName, projectTree, removeIfExist) {
+    var rootDirPath = path.resolve(rootDirName);
+
+    if (fs.existsSync(rootDirPath)) {
+        console.log( "ERROR: Directory exists yet! " + rootDirPath);
+        if( ! removeIfExist ) {
+            return false;
         }
-    });
-
-    verbose && console.log('Read "' + extension + '" files from ' + docPath );
-
-    return fileNames;
-}
-
-function processFiles( config ) {
-    verbose = config.verbose;
-    getFileNames(config.fromDir, config.fromExt).forEach( function( fileName ) {
-        var fromFileName = __dirname + '/' + config.fromDir + '/' + fileName + '.' + config.fromExt;
-        var toFileName = __dirname + '/' + config.toDir + '/' + fileName + '.' + config.toExt;
-        verbose && console.log( '\nprocess\n  ' + fromFileName + '\n  >> ' + toFileName);
-        var obj = config.converter( fromFileName );
-        config.postprocessors.forEach(function(processor) {
-            if( processor.fileName == fileName ) {
-                var newObj = processor.processorFunc(obj);
-                if( processor.toFileName ) {
-                    config.writer( newObj, __dirname + '/' + config.toDir + '/' + processor.toFileName + '.' + config.toExt );
-                }
-            }
-        });
-        config.writer( obj, toFileName );
-//            console.log( JSON.stringify( transform( mmToJson(fromFileName,false) ), null, '    ' ) );
-    });
-}
-
-function getActiveServices(servicesRoot) {
-    var services = require('restapi')({
-        servicesRoot: servicesRoot,
-        services: [
-            "/customers"
-        ]});
-
-    // console.log(JSON.stringify(services,null,'  '));
-    return services;
-}
-
-function getDirectServices(services) {
-    var directServices = [];
-
-    for ( service in services ) {
-        if ( services.hasOwnProperty(service) ) {
-            var serviceDesc = services[service];
-            for ( method in services[service].methods ) {
-                if ( serviceDesc.methods.hasOwnProperty(method) ) {
-                    var directServiceDesc = {
-                        ns: serviceDesc.servicePath.replace(/^\//,"")
-                            .replace(/\/.*$/,"")
-                            .replace(/\//g, "."),
-                        name: serviceDesc.name,
-                        url: serviceDesc.urlPattern,
-                        method: method
-                    };
-                    var methodParams = serviceDesc.methods[method].parameters;
-                    if( methodParams /*&& typeof methodParams === 'list'*/ && methodParams.length > 0 ) {
-                        directServiceDesc.paramsKind = {};
-
-                        methodParams.forEach( function(parameter) {
-                            directServiceDesc.paramsKind[parameter.name] = parameter.kind;
-                        });
-                    }
-                    directServices.push(directServiceDesc);
-                }
-            }
-        }
+        console.log('Remove existing directory...');
+        wrench.rmdirSyncRecursive(rootDirPath);
     }
-    return directServices;
+
+    fs.mkdirSync(rootDirPath);
+    projectTree.forEach( function(dir) {
+        var dirToCreate = path.resolve( path.join( rootDirName, dir));
+        verbose && console.log('Create "' + dirToCreate + '"');
+        fs.mkdirSync(dirToCreate);
+    });
+    return true;
+};
+
+exports.copyDir = function(dirName, sourceBaseDir, targetBaseDir, context, opts) {
+    var sourceDirName = path.resolve(sourceBaseDir, dirName),
+        destDirName = path.resolve(context.projectName, targetBaseDir, dirName);
+
+    verbose && console.log('Copy dir from: ' + sourceDirName + ' to: ' + destDirName);
+    wrench.copyDirSyncRecursive(sourceDirName, destDirName, opts);
 }
 
-console.log(JSON.stringify(getDirectServices(getActiveServices(__dirname + examples')), null, '    '));
+exports.copyFile = function(fileName, sourceBaseDir, targetBaseDir, context) {
+        console.log('copyFile...' + fileName);
+
+    var sourceFileName = path.resolve(sourceBaseDir, fileName),
+        destFileName = path.resolve(context.projectName, targetBaseDir, fileName);
+
+    verbose && console.log('Copy file from: ' + sourceFileName + ' to: ' + destFileName);
+    fs.writeFileSync(destFileName, fs.readFileSync(sourceFileName));
+}
+
+exports.processTemplate = function(template, context) {
+    var templateFileName = path.resolve(__dirname, "templates/project", template),
+        fileName = path.resolve(context.projectName, template),
+        buffer = '',
+        view = {};
+    verbose && console.log('templateFileName: ' + templateFileName);
+    verbose && console.log('fileName: ' + fileName);
+
+    extend(view, context);
+
+    mu.compileAndRender(templateFileName, view)
+        .on('data', function(c) {
+            buffer += c.toString();
+        })
+        .on('end', function() {
+            fs.writeFile(fileName, buffer, function(err) {
+                if (err) throw err;
+            });
+        });
+}
+

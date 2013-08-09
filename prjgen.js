@@ -1,46 +1,6 @@
-var mu = require('mu2'),
-    fs = require('fs'),
-    path = require('path'),
-    extend = require('./extend.js');
+var generator = require('./generator.js'),
+    path = require('path');
 var verbose = false;
-
-var createProjectTree = function(projectName, projectTree) {
-    var projectPath = path.resolve(projectName);
-    if (fs.existsSync(projectPath)) {
-        console.log( "ERROR: Project folder exists yet!");
-        return false;
-    } else {
-        fs.mkdirSync(projectPath);
-        console.log('Create the "' + projectPath + '" REST API project"');
-        projectTree.forEach( function(dir) {
-            var dirToCreate = path.resolve( path.join( projectName, dir));
-            verbose && console.log('Create "' + dirToCreate + '"');
-            fs.mkdirSync(dirToCreate);
-        });
-        return true;
-    }
-};
-
-var processTemplate = function(template, context) {
-    var templateFileName = path.resolve(__dirname, "templates/project", template),
-        fileName = path.resolve(context.projectName, template),
-        buffer = '',
-        view = {};
-    verbose && console.log('templateFileName: ' + templateFileName);
-    verbose && console.log('fileName: ' + fileName);
-
-    extend(view, context);
-
-    mu.compileAndRender(templateFileName, view)
-        .on('data', function(c) {
-            buffer += c.toString();
-        })
-        .on('end', function() {
-            fs.writeFile(fileName, buffer, function(err) {
-                if (err) throw err;
-            });
-        });
-}
 
 /**
  * Create a new REST API project
@@ -50,7 +10,7 @@ var processTemplate = function(template, context) {
 exports.create = function (context, mode) {
     verbose = mode;
 
-    if ( createProjectTree(context.projectName, [
+    if ( generator.createDirectoryTree(context.projectName, [
         "docs",
         "server",
         "services",
@@ -58,9 +18,27 @@ exports.create = function (context, mode) {
         "services/monitoring/isAlive",
         "templates",
         "templates/docs",
+        "templates/docs/images",
+        "templates/docs/js",
+        "templates/docs/sass",
+        "templates/docs/stylesheets",
         "templates/server",
         "templates/test",
-        "test" ]) ) {
+        "test" ], false) ) {
+
+        [
+            "docs",
+            "templates/docs"
+        ].forEach(function(dirName) {
+            generator.copyDir(dirName, path.resolve(__dirname, "templates/project"), "", context, {
+                forceDelete: true, // Whether to overwrite existing directory or not
+                excludeHiddenUnix: true, // Whether to copy hidden Unix files or not (preceding .)
+                preserveFiles: false, // If we're overwriting something and the file already exists, keep the existing
+                inflateSymlinks: true // Whether to follow symlinks or not when copying files
+                // filter: regexp, // A filter to match files against; if matches, do nothing (exclude).
+                // whitelist: bool, // if true every file or directory which doesn't match filter will be ignored
+            });
+        });
 
         [
             "README.md",
@@ -81,7 +59,7 @@ exports.create = function (context, mode) {
             "templates/test/testGetMethod.mustache",
             "templates/test/testPostMethod.mustache"
         ].forEach(function(template) {
-            processTemplate(template, context);
+            generator.processTemplate(template, context);
         });
     }
 }

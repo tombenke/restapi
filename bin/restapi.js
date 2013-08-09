@@ -49,11 +49,12 @@
         .command('doc')
         .description('Documentation management')
         .option("-u, --update", "Generate the HTML format documentation")
+        .option("-c, --config <configFileName>", "The name of the configuration file (default: config.yml)", String, 'config.yml')
         .option("-v, --verbose", "Verbose mode", Boolean, false)
         .action(function(options) {
                 verbose = options.verbose;
                 if( options.update ) {
-                    require('../docgen.js').update(verbose);
+                    require('../docgen.js').update(readConfig(options.config), verbose);
                 }
             });
 

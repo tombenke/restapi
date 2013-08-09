@@ -20,14 +20,14 @@ methods:
             OK:
                 statusCode: 200
                 reason: Successful execution
-                validationSchema: getIsAlive-responseBody-validationSchema.json
+                # validationSchema: getMonitoringIsAlive-responseBody-validationSchema.json
                 cookies: []
                 headers:
                     Content-Type: application/json
                     X-Application-API-Version: v0.0.0
-                # mockBody: getIsAlive-responseBody.json
+                # mockBody: getMonitoringIsAlive-responseBody.json
         testCases:
-            getCustomers:
+            getMonitoringIsAlive:
                 description: Successfully checks if server is alive
                 url: /monitoring/isAlive
                 template: testGetMethod.mustache
@@ -42,4 +42,4 @@ methods:
                     headers:
                         Content-Type: application/json
                         X-Application-API-Version: v0.0.0
-                    validationSchema: getIsAlive-responseBody-validationSchema.json
+                    # validationSchema: getMonitoringIsAlive-responseBody-validationSchema.json
