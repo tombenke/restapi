@@ -1,8 +1,5 @@
 # TODO
 
-- Change the functioning of the 'services' property in server/config.yml.
-  It refers to the central services/config.yml file to load the service descriptors.
-
 # ------------------
 - Known BUG: Schema validation does not work properly (see examples/crm-api)
 - Rename templates to use .mu postfixes, and put them onto whitelist during dir-copy of prjgen

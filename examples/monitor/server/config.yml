@@ -8,15 +8,10 @@ environments:
 
   # This is the default configuration set
   default:
-    appName: monitor
     documentRoot: .
     port: 3007
-    servicesRoot: ../services
-    serviceUrlPrefix: /rest
-    services:
-        - /monitoring/isAlive
+    restapiRoot: ..
     useRemoteServices: false
-    apiVersion: v0.0.0
 
   # Override the default config parameters with values specific to the development environment
   development:

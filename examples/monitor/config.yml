@@ -1,7 +1,11 @@
+appName: monitor
+apiVersion: v0.0.0
 baseUrl: http://localhost:3007/rest
-loginCredentials:
-    user: username
-    pass: password
+serviceUrlPrefix: /rest
 servicesRoot: services
 services:
     - /monitoring/isAlive
+
+loginCredentials:
+    user: username
+    pass: password

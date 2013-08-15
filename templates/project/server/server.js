@@ -4,22 +4,9 @@ var request = require( 'request' );
 var api = require('./api.js');
 var monitoring = require('./monitoring.js');
 var services = require('restapi').services;
+// var services = require('../../../index.js').services;
 var httpProxy = require('http-proxy');
 var proxy = new httpProxy.RoutingProxy();
-
-function apiProxy(host, port) {
-    return function (req, res, next) {
-        // console.log('apiProxy called to ' + req.host + ' ' + req.ip);
-        if ((req.url.match(new RegExp('^' + config.serviceUrlPrefix.replace(/\//gi, '\\/') + '\\/')) ) &&
-            config.useRemoteServices) {
-            console.log('forwarding ' + req.method + ' ' + req.url + ' request to ' + req.method + ' ' + host + ':' + port + req.url + '  from '+ req.host + ' - ' + req.ip);
-            var proxyBuffer = httpProxy.buffer(req);
-            proxy.proxyRequest(req, res, {host: host, port: port, buffer: proxyBuffer});
-        } else {
-            next();
-        }
-    }
-}
 
 // Get configured
 var config = {};
@@ -31,6 +18,26 @@ if( process.argv.length >= 3 ) {
     config = require( './config.js' ).parameters;
 }
 console.log( config );
+
+// Load services config and service descriptors
+services.load(__dirname + '/' + config.restapiRoot);
+var allServices = services.getServices();
+var servicesConfig = services.getConfig();
+console.log('restapi config:', servicesConfig);
+
+function apiProxy(host, port) {
+    return function (req, res, next) {
+        // console.log('apiProxy called to ' + req.host + ' ' + req.ip);
+        if ((req.url.match(new RegExp('^' + servicesConfig.serviceUrlPrefix.replace(/\//gi, '\\/') + '\\/')) ) &&
+            config.useRemoteServices) {
+            console.log('forwarding ' + req.method + ' ' + req.url + ' request to ' + req.method + ' ' + host + ':' + port + req.url + '  from '+ req.host + ' - ' + req.ip);
+            var proxyBuffer = httpProxy.buffer(req);
+            proxy.proxyRequest(req, res, {host: host, port: port, buffer: proxyBuffer});
+        } else {
+            next();
+        }
+    }
+}
 
 var server = module.exports = express();
 server.set('env', config.environment );
@@ -73,7 +80,7 @@ server.all("*", accessLogger, restrict);
 
 function writeHeader(response) {
     response.header( 'Content-Type', 'serverlication/json' );
-    response.header( 'X-pmd-api-API-Version', config.apiVersion );
+    response.header( 'X-pmd-api-API-Version', servicesConfig.apiVersion );
 }
 exports.writeHeader = writeHeader;
 
@@ -98,14 +105,11 @@ var reformatUrlPattern = function (urlPattern) {
 }
 
 // Setup the services for mocking
-services.load(__dirname + '/' + config.servicesRoot, config.services);
-var allServices = services.getServices();
-
 function registerServiceMethod(serviceDesc, method) {
     console.log('register service ' + method + ' ' + serviceDesc.urlPattern);
     var methodDesc = serviceDesc.methods[method];
     var implementation = eval( serviceDesc.methods[method].implementation ) || defaultServiceCall;
-    server[method.toLowerCase()](config.serviceUrlPrefix + reformatUrlPattern(serviceDesc.urlPattern), function(request, response) {
+    server[method.toLowerCase()](servicesConfig.serviceUrlPrefix + reformatUrlPattern(serviceDesc.urlPattern), function(request, response) {
         implementation(request, response, serviceDesc);
     });
 }

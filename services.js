@@ -2,13 +2,25 @@
  * Service Loader for the restapi tool
  */
 
+var path = require( 'path' );
+
 // Load the YAML parser module
 require( 'js-yaml' );
 
 // Load the should module for validation
 var should = require( 'should' );
 
-var services = {};
+var config = {};    // restapi configuration file
+var services = {};  // Descriptors of all services
+
+var loadFile = function (contentFileName) {
+    var content = require(contentFileName);
+    return content;
+};
+
+var loadConfig = function(configFileName) {
+    return loadFile(configFileName);
+};
 
 var validateServiceParameter = function (parameter) {
     parameter.should.be.a('object');
@@ -20,18 +32,18 @@ var validateServiceParameter = function (parameter) {
     parameter.should.have.property('type');
     parameter.should.have.property('summary');
     parameter.should.have.property('default');
-}
+};
 
 var validateServiceStatusCode = function (statusCode) {
     statusCode.should.be.a('object');
     statusCode.should.have.property('statusCode');
     statusCode.should.have.property('reason');
-}
+};
 
 var validateServiceCookie = function (cookie) {
     cookie.should.be.a('object');
     cookie.should.have.property('Cookie');
- }
+};
 
 var validateServiceExample = function (example) {
     example.should.be.a('object');
@@ -48,7 +60,7 @@ var validateServiceExample = function (example) {
     example.response.should.have.property('headers').and.be.an.instanceOf(Array);
     example.response.should.have.property('statusCode');
     example.response.should.have.property('body');
-}
+};
 
 var validateServiceDescriptor = function (serviceDesc) {
     serviceDesc.should.be.a('object');
@@ -89,9 +101,19 @@ var validateServiceDescriptor = function (serviceDesc) {
             // serviceMethod.should.have.property('responseValidationSchema');
         }
     }
-}
+};
 
-exports.load = function(baseFolder, servicesToLoad) {
+exports.load = function(restapiRoot) {
+
+    config = loadConfig(path.resolve(restapiRoot,'config.yml'));
+
+    var baseFolder = path.resolve(restapiRoot, config.servicesRoot),
+        servicesToLoad = config.services;
+
+    return loadServices(baseFolder, servicesToLoad);
+};
+
+var loadServices = function(baseFolder, servicesToLoad) {
     // serviceFolders
     servicesToLoad.forEach(function (servicePath) {
         var serviceDescriptorFileName = baseFolder + servicePath + '/service.yml';
@@ -112,11 +134,6 @@ exports.load = function(baseFolder, servicesToLoad) {
     return services;
 };
 
-var loadFile = function (contentFileName) {
-    var content = require(contentFileName);
-    return content;
-};
-
 exports.getMockResponseBody = function(method, serviceDesc) {
     var mockResponseBody = false;
 
@@ -126,11 +143,15 @@ exports.getMockResponseBody = function(method, serviceDesc) {
         mockResponseBody = loadFile(serviceDesc.contentPath + '/' + mockBody);
     }
     return mockResponseBody;
-}
+};
 
 exports.getServices = function () {
     return services;
-}
+};
+
+exports.getConfig = function () {
+    return config;
+};
 
 exports.getAllTestCases = function () {
     var testCases = [];
@@ -169,4 +190,4 @@ exports.getAllTestCases = function () {
         }
     }
     return testCases;
-}
+};
