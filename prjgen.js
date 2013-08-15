@@ -50,7 +50,7 @@ exports.create = function (context, mode) {
 
             "server/Readme.md",
             "server/api.js",
-            "server/app.js",
+            "server/server.js",
             "server/config.js",
             "server/config.yml",
             "server/monitoring.js",
