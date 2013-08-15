@@ -10,8 +10,7 @@ var proxy = new httpProxy.RoutingProxy();
 function apiProxy(host, port) {
     return function (req, res, next) {
         // console.log('apiProxy called to ' + req.host + ' ' + req.ip);
-        if ((req.url.match(new RegExp('^' + config.serviceUrlPrefix.replace(/\//gi, '\\/') + '\\/')) ||
-            req.url.match(new RegExp('^' + config.hornetqUrlPrefix.replace(/\//gi, '\\/') + '\\/'))) &&
+        if ((req.url.match(new RegExp('^' + config.serviceUrlPrefix.replace(/\//gi, '\\/') + '\\/')) ) &&
             config.useRemoteServices) {
             console.log('forwarding ' + req.method + ' ' + req.url + ' request to ' + req.method + ' ' + host + ':' + port + req.url + '  from '+ req.host + ' - ' + req.ip);
             var proxyBuffer = httpProxy.buffer(req);
@@ -33,31 +32,31 @@ if( process.argv.length >= 3 ) {
 }
 console.log( config );
 
-var app = module.exports = express();
-app.set('env', config.environment );
+var server = module.exports = express();
+server.set('env', config.environment );
 
 // Configure the middlewares
-app.configure( function() {
-        app.use( express.bodyParser() );
-        app.use( express.methodOverride() );
-        app.use( express.cookieParser() );
-        app.use( express.session( {secret: 'keyboard cat'} ) );
-        app.use( apiProxy(config.remoteHost, config.remotePort) );
-        app.use( app.router );
-        // app.use( '/data', express.static( __dirname + '/' + '../resources/data' ) );
-        app.use( '/docs', express.static( __dirname + '/' + '../docs/build' ) );
-        app.use( express.static( __dirname + '/' + config.documentRoot ) );
+server.configure( function() {
+        server.use( express.bodyParser() );
+        server.use( express.methodOverride() );
+        server.use( express.cookieParser() );
+        server.use( express.session( {secret: 'keyboard cat'} ) );
+        server.use( apiProxy(config.remoteHost, config.remotePort) );
+        server.use( server.router );
+        // server.use( '/data', express.static( __dirname + '/' + '../resources/data' ) );
+        server.use( '/docs', express.static( __dirname + '/' + '../docs/build' ) );
+        server.use( express.static( __dirname + '/' + config.documentRoot ) );
     });
 
-app.configure( 'development', function() {
-        app.use( express.errorHandler( {
+server.configure( 'development', function() {
+        server.use( express.errorHandler( {
                     dumpExceptions: true,
                     showStack: true
                 }));
     });
 
-app.configure( 'production', function() {
-        app.use( express.errorHandler() );
+server.configure( 'production', function() {
+        server.use( express.errorHandler() );
     });
 
 function restrict( req, res, next ) {
@@ -70,11 +69,11 @@ function accessLogger( req, res, next ) {
 }
 
 // Routes
-app.all("*", accessLogger, restrict);
+server.all("*", accessLogger, restrict);
 
 function writeHeader(response) {
-    response.header( 'Content-Type', 'application/json' );
-    response.header( 'X-{{projectName}}-API-Version', config.apiVersion );
+    response.header( 'Content-Type', 'serverlication/json' );
+    response.header( 'X-pmd-api-API-Version', config.apiVersion );
 }
 exports.writeHeader = writeHeader;
 
@@ -87,7 +86,7 @@ exports.writeResponse = writeResponse;
 
 var defaultServiceCall = function (request, response, serviceDesc) {
     response.header( 'Content-Type', 'application/json' );
-    // TODO: Use Headers and Cookies from servoceDesc
+    // TODO: Use Headers and Cookies from serviceDesc
     writeResponse(response, services.getMockResponseBody(request.method, serviceDesc ) || serviceDesc);
 }
 
@@ -99,6 +98,7 @@ var reformatUrlPattern = function (urlPattern) {
 }
 
 // Setup the services for mocking
+// services.loadConfig(__dirname + '/' + config.restapiRoot);
 services.load(__dirname + '/' + config.servicesRoot, config.services);
 var allServices = services.getServices();
 
@@ -106,7 +106,7 @@ function registerServiceMethod(serviceDesc, method) {
     console.log('register service ' + method + ' ' + serviceDesc.urlPattern);
     var methodDesc = serviceDesc.methods[method];
     var implementation = eval( serviceDesc.methods[method].implementation ) || defaultServiceCall;
-    app[method.toLowerCase()](config.serviceUrlPrefix + reformatUrlPattern(serviceDesc.urlPattern), function(request, response) {
+    server[method.toLowerCase()](config.serviceUrlPrefix + reformatUrlPattern(serviceDesc.urlPattern), function(request, response) {
         implementation(request, response, serviceDesc);
     });
 }
@@ -123,6 +123,6 @@ for ( service in allServices ) {
 }
 
 // Start the server to listen
-app.listen( config.port );
+server.listen( config.port );
 console.log( "Express server listening on port %d in %s mode",
-    config.port, app.settings.env );
+    config.port, server.settings.env );

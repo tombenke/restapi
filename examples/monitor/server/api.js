@@ -6,7 +6,7 @@
  */
 var services = require('restapi').services;
 
-var server = require('./app.js');
+var server = require('./server.js');
 
 //=============================================================================
 // BEGIN mock method implementations
