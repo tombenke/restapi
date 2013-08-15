@@ -50,8 +50,8 @@ server.configure( function() {
         server.use( express.session( {secret: 'keyboard cat'} ) );
         server.use( apiProxy(config.remoteHost, config.remotePort) );
         server.use( server.router );
-        // server.use( '/data', express.static( __dirname + '/' + '../resources/data' ) );
-        server.use( '/docs', express.static( __dirname + '/' + '../docs/build' ) );
+        server.use( '/data', express.static( __dirname + '/' + '../data' ) );
+        server.use( '/docs', express.static( __dirname + '/' + '../docs' ) );
         server.use( express.static( __dirname + '/' + config.documentRoot ) );
     });
 

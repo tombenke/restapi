@@ -21,7 +21,7 @@ exports.update = function ( config, overwrite, mode ) {
         pathSep = path.sep;
 
     var services = require('./services.js');
-    services.load( process.cwd() + pathSep + config.servicesRoot, config.services);
+    services.load(process.cwd());
     verbose && console.log(services.getServices());
 
     var allTestCases = services.getAllTestCases();

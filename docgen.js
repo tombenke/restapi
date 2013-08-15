@@ -35,11 +35,16 @@ var initDocsFolder = function(context, mode) {
         });
     }
     return true;
-}
+};
+
+var generateDocFileName = function (serviceDesc) {
+    console.log('generateDocFileName', serviceDesc);
+    return serviceDesc.urlPattern.replace(/\//g, "_").replace(/^_/,"") + '.html';
+};
 
 var generateServiceDoc = function(serviceDesc, context) {
     var templateFileName = path.join(process.cwd(), 'templates', 'docs', 'restapi.html'),
-        fileName = path.join(process.cwd(), 'docs', serviceDesc.urlPattern.replace(/\//g, "_") + '.html'),
+        fileName = path.join(process.cwd(), 'docs', generateDocFileName(serviceDesc)),
         buffer = '',
         view = {};
     console.log('Generate service doc: ' + serviceDesc.name);
@@ -48,18 +53,27 @@ var generateServiceDoc = function(serviceDesc, context) {
 
     extend(view, context, serviceDesc);
 
-    verbose && console.log('template context:', view);
+    verbose && console.log('template context:', JSON.stringify(view, null, '  '));
     mu.compileAndRender(templateFileName, view)
         .on('data', function(c) {
             buffer += c.toString();
         })
         .on('end', function() {
-            console.log('Writing to: ' + fileName + " " + buffer);
+            // console.log('Writing to: ' + fileName + " " + buffer);
             fs.writeFile(fileName, buffer, function(err) {
                 if (err) throw err;
             });
         });
-}
+};
+
+var mapOwnProperties = function(obj, func) {
+    for (var property in obj) {
+        if (obj.hasOwnProperty(property)) {
+            console.log('mapOwnProperty obj[' + property + '] : ' + obj[property]);
+            func(obj[property]);
+        }
+    }
+};
 
 /**
  * Generate the HTML format documentation
@@ -70,16 +84,24 @@ exports.update = function (context, mode) {
     console.log('Generate the HTML format documentation', context);
     initDocsFolder(context, mode);
 
+    mu.root = path.resolve('templates/docs/');
+
     var services = require('./services.js');
-    console.log();
-    services.load( path.resolve( process.cwd(), context.servicesRoot), context.services);
+    services.load(process.cwd());
 
     var allServices = services.getServices();
     verbose && console.log('All Services: ', allServices);
 
-    for (var service in allServices) {
-        if (allServices.hasOwnProperty(service)) {
-            generateServiceDoc(allServices[service], context);
-        }
-    }
-}
+    var serviceDocNames = [];
+    mapOwnProperties( allServices, function( serviceDesc ) {
+        serviceDocNames.push({
+            name: serviceDesc.name,
+            docFileName: generateDocFileName(serviceDesc)
+        });
+    });
+
+    mapOwnProperties( allServices, function( serviceDesc ) {
+        context.serviceDocNames = serviceDocNames;
+        generateServiceDoc(serviceDesc, context);
+    });
+};

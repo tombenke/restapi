@@ -11,21 +11,33 @@ methods:
             parameters: []
             cookies: []
             headers:
-                Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
-                Accept-Encoding: "gzip, deflate"
+                -
+                    field: Accept
+                    content: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+                -
+                    field: Accept-Encoding
+                    content: "gzip, deflate"
         responses:
-            OK:
+            -
+                name: OK
                 statusCode: 200
                 reason: Successful execution
                 validationSchema: getCustomers-responseBody-validationSchema.json
                 cookies: []
                 headers:
-                    Content-Type: application/json
-                    X-Application-Version: v0.4 # This value must be parametric
-                    X-Application-API-Version: v0.1 # This value must be parametric
+                    -
+                        field: Content-Type
+                        content: application/json
+                    -
+                        field: X-Application-Version
+                        content: v0.4 # This value must be parametric
+                    -
+                        field: X-Application-API-Version
+                        content: v0.1 # This value must be parametric
                 mockBody: getCustomers-responseBody.json
         testCases:
-            getCustomers:
+            -
+                name: Get Customers
                 description: Successfully retrieves all the customers
                 url: /customers
                 template: testGetMethod.mustache
@@ -61,21 +73,33 @@ methods:
             parameters: []
             cookies: []
             headers:
-                Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
-                Accept-Encoding: "gzip, deflate"
+                -
+                    field: Accept
+                    content: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+                -
+                    field: Accept-Encoding
+                    content: "gzip, deflate"
         responses:
-            OK:
+            -
+                name: OK
                 statusCode: 200
                 reason: Successful execution
                 validationSchema: getCustomers-responseBody-validationSchema.json
                 cookies: []
                 headers:
-                    Content-Type: application/json
-                    X-Application-Version: v0.4 # This value must be parametric
-                    X-Application-API-Version: v0.1 # This value must be parametric
+                    -
+                        field: Content-Type
+                        content: application/json
+                    -
+                        field: X-Application-Version
+                        content: v0.4 # This value must be parametric
+                    -
+                        field: X-Application-API-Version
+                        content: v0.1 # This value must be parametric
                 mockBody: postCustomer-responseBody.json
         testCases:
-            createCustomer:
+            -
+                name: Create Customer
                 description: Succesfully creates a new customer
                 url: /customers
                 template: testPostMethod.mustache
@@ -111,21 +135,33 @@ methods:
             parameters: []
             cookies: []
             headers:
-                Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
-                Accept-Encoding: "gzip, deflate"
+                -
+                    field: Accept
+                    content: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+                -
+                    field: Accept-Encoding
+                    content: "gzip, deflate"
         responses:
-            OK:
+            -
+                name: OK
                 statusCode: 200
                 reason: Successful execution
                 validationSchema: deleteCustomer-responseBody-validationSchema.json
                 cookies: []
                 headers:
-                    Content-Type: application/json
-                    X-Application-Version: v0.4 # This value must be parametric
-                    X-Application-API-Version: v0.1 # This value must be parametric
+                    -
+                        field: Content-Type
+                        content: application/json
+                    -
+                        field: X-Application-Version
+                        content: v0.4 # This value must be parametric
+                    -
+                        field: X-Application-API-Version
+                        content: v0.1 # This value must be parametric
                 mockBody: deleteCustomer-responseBody.json
         testCases:
-            deleteCustomer:
+            -
+                name: Delete Customer
                 description: Successfully delete the customer
                 url: /customers/1
                 template: testDelMethod.mustache
@@ -161,21 +197,33 @@ methods:
             parameters: []
             cookies: []
             headers:
-                Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
-                Accept-Encoding: "gzip, deflate"
+                -
+                    field: Accept
+                    content: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+                -
+                    field: Accept-Encoding
+                    content: "gzip, deflate"
         responses:
-            OK:
+            -
+                name: OK
                 statusCode: 200
                 reason: Successful execution
                 validationSchema: putCustomer-responseBody-validationSchema.json
                 cookies: []
                 headers:
-                    Content-Type: application/json
-                    X-Application-Version: v0.4 # This value must be parametric
-                    X-Application-API-Version: v0.1 # This value must be parametric
+                    -
+                        field: Content-Type
+                        content: application/json
+                    -
+                        field: X-Application-Version
+                        content: v0.4 # This value must be parametric
+                    -
+                        field: X-Application-API-Version
+                        content: v0.1 # This value must be parametric
                 mockBody: putCustomer-responseBody.json
         testCases:
-            updateCustomer:
+            -
+                name: Update Customer
                 description: Succesfully updates a customer
                 url: /customers/1
                 template: testPutMethod.mustache

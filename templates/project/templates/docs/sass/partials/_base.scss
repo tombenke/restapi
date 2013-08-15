@@ -31,7 +31,7 @@ $font-color: #336699;
     @include inline-block; }
 
 .serviceNameBox {
-    @include stretchBox(160px); }
+    @include stretchBox(400px); }
 
 .urlPatternBox {
     @include stretchBox(400px); }

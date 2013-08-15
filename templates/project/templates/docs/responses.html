@@ -1,0 +1,16 @@
+    <div class="block-title"><h4>Responses:</h4></div>
+    <div id="responses">
+    {{#responses}}
+
+        <div class="block-title">
+            <h5>{{statusCode}} - {{reason}}</h5>
+        </div>
+        <div id="response">
+            <p>Response validation schema: <a href="{{validationSchema}}">{{validationSchema}}</a></p>
+
+            {{> headers.html}}
+            {{> cookies.html}}
+        </div> <!-- End of Response -->
+
+    {{/responses}}
+    </div> <!-- End of Responses -->

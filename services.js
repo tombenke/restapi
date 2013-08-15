@@ -113,6 +113,17 @@ exports.load = function(restapiRoot) {
     return loadServices(baseFolder, servicesToLoad);
 };
 
+var updateMethodLists = function (serviceDescriptor) {
+    serviceDescriptor.methodList = [];
+
+    for(var method in serviceDescriptor.methods) {
+        if(serviceDescriptor.methods.hasOwnProperty(method)) {
+            serviceDescriptor.methods[method].methodName = method;
+            serviceDescriptor.methodList.push(serviceDescriptor.methods[method]);
+        }
+    }
+};
+
 var loadServices = function(baseFolder, servicesToLoad) {
     // serviceFolders
     servicesToLoad.forEach(function (servicePath) {
@@ -126,6 +137,8 @@ var loadServices = function(baseFolder, servicesToLoad) {
         console.log('Validating ' + serviceDescriptorFileName);
         validateServiceDescriptor(serviceDescriptor);
 
+        updateMethodLists(serviceDescriptor);
+
         // Set service description to services map
         console.log(serviceDescriptorFileName + 'service is loaded.\n');
         serviceDescriptor.contentPath = baseFolder + servicePath;
@@ -137,7 +150,16 @@ var loadServices = function(baseFolder, servicesToLoad) {
 exports.getMockResponseBody = function(method, serviceDesc) {
     var mockResponseBody = false;
 
-    var mockBody = serviceDesc.methods[method].responses.OK.mockBody || '';
+    var mockBody = '';
+
+    serviceDesc.methods[method].responses.forEach(function(response) {
+        if (response.name === 'OK' &&
+            typeof response.mockBody != 'undefined' &&
+            response.mockBody != null) {
+            mockBody = response.mockBody;
+        }
+    });
+
     console.log('mockBody: ', mockBody);
     if ( mockBody !== '' ) {
         mockResponseBody = loadFile(serviceDesc.contentPath + '/' + mockBody);
@@ -153,6 +175,45 @@ exports.getConfig = function () {
     return config;
 };
 
+// exports.getAllTestCases = function () {
+//     var testCases = [];
+
+//     for (var service in services ) {
+//         if ( services.hasOwnProperty(service) ) {
+//             console.log('get test cases of ' + service);
+//             var serviceDesc = services[service];
+//             for (var method in serviceDesc.methods ) {
+//                 if( serviceDesc.methods.hasOwnProperty(method) ) {
+//                     var methodDesc = serviceDesc.methods[method];
+//                     for (var testCase in methodDesc.testCases ) {
+//                         if( methodDesc.testCases.hasOwnProperty(testCase) ) {
+//                             var testCaseDesc = methodDesc.testCases[testCase];
+//                             testCases.push({
+//                                 service: {
+//                                     name: serviceDesc.name,
+//                                     description: serviceDesc.description,
+//                                     urlPattern: serviceDesc.urlPatern,
+//                                     style: serviceDesc.style
+//                                 },
+//                                 method: method,
+//                                 testCase: {
+//                                     name: testCase,
+//                                     description: testCaseDesc.description,
+//                                     url: testCaseDesc.url,
+//                                     template: testCaseDesc.template,
+//                                     request: testCaseDesc.request,
+//                                     response: testCaseDesc.response
+//                                 }
+//                             });
+//                         }
+//                     }
+//                 }
+//             };
+//         }
+//     }
+//     return testCases;
+// };
+
 exports.getAllTestCases = function () {
     var testCases = [];
 
@@ -163,28 +224,25 @@ exports.getAllTestCases = function () {
             for (var method in serviceDesc.methods ) {
                 if( serviceDesc.methods.hasOwnProperty(method) ) {
                     var methodDesc = serviceDesc.methods[method];
-                    for (var testCase in methodDesc.testCases ) {
-                        if( methodDesc.testCases.hasOwnProperty(testCase) ) {
-                            var testCaseDesc = methodDesc.testCases[testCase];
-                            testCases.push({
-                                service: {
-                                    name: serviceDesc.name,
-                                    description: serviceDesc.description,
-                                    urlPattern: serviceDesc.urlPatern,
-                                    style: serviceDesc.style
-                                },
-                                method: method,
-                                testCase: {
-                                    name: testCase,
-                                    description: testCaseDesc.description,
-                                    url: testCaseDesc.url,
-                                    template: testCaseDesc.template,
-                                    request: testCaseDesc.request,
-                                    response: testCaseDesc.response
-                                }
-                            });
-                        }
-                    }
+                    methodDesc.testCases.forEach( function(testCaseDesc) {
+                        testCases.push({
+                            service: {
+                                name: serviceDesc.name,
+                                description: serviceDesc.description,
+                                urlPattern: serviceDesc.urlPatern,
+                                style: serviceDesc.style
+                            },
+                            method: method,
+                            testCase: {
+                                name: testCaseDesc.name,
+                                description: testCaseDesc.description,
+                                url: testCaseDesc.url,
+                                template: testCaseDesc.template,
+                                request: testCaseDesc.request,
+                                response: testCaseDesc.response
+                            }
+                        });
+                    });
                 }
             };
         }
