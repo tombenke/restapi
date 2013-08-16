@@ -1,14 +1,54 @@
-    <div class="block-title"><h4>Test Cases:</h4></div>
+
+<!-- Begin Test Cases -->
+<div class="shady-block-container">
+    <div class="block-title">
+        <h4>Test Cases:</h4>
+    </div>
     <div id="responses">
     {{#testCases}}
 
-        <div class="block-title">
-            <h5>{{name}} - {{url}}</h5>
-        </div>
-        <div id="response">
-            <p>{{description}}</p>
+        <!-- Begin Test Case -->
+        <div class="block-container">
+            <div class="block-title">
+                <h5>{{name}}</h5>
+            </div>
+            <div>
+                <div class="urlFont">{{url}}</div>
+                <p>{{description}}</p>
 
-        </div> <!-- End of Test Case -->
+                <!-- Begin Request -->
+                <div class="shady-block-container">
+                    <div class="block-title">
+                        <h4>Request:</4>
+                    </div>
+                    <div id="request">
+                    {{#request}}
+                    {{> headers.html}}
+                    {{> cookies.html}}
+                    {{/request}}
+                    </div>
+                </div>
+                <!-- End of Request -->
+
+                <!-- Begin Response -->
+                <div class="shady-block-container">
+                    <div class="block-title">
+                        <h4>Response:</4>
+                    </div>
+                    <div id="request">
+                    {{#response}}
+                    {{> headers.html}}
+                    {{> cookies.html}}
+                    {{/response}}
+                    </div>
+                </div>
+                <!-- End of Response -->
+            </div>
+
+        </div>
+        <!-- End of Test Case -->
 
     {{/testCases}}
-    </div> <!-- End of Test Cases -->
+    </div>
+</div>
+<!-- End of Test Cases -->
