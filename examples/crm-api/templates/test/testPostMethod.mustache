@@ -7,11 +7,7 @@ describe('{{description}}', function() {
 
 	it('should successfully {{description}}', function(done) {
 		var path = require('path');
-//<<<<<<< HEAD
-		var body = require(path.join(__dirname, '..', 'bodies', '{{body}}'));
-//=======
-//		var body = require(path.join(__dirname, '..', 'services', 'customers', '{{request.body}}'));
-//>>>>>>> 9ebd3f3e9e7c254c784d0a83dcbb05bec39c956e
+		var body = require(path.join(__dirname, '..', 'services', 'customers', '{{request.body}}'));
 		agent
 			.post('{{baseUrl}}{{url}}')
 			{{#loginCredentials}}.auth('{{user}}', '{{pass}}'){{/loginCredentials}}
