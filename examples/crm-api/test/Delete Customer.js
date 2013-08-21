@@ -18,25 +18,14 @@ describe('Successfully delete the customer', function() {
                 should.not.exist(err);
                 res.should.have.status(200);
                 
-                res.headers['Content-Type'].should.equal('application/json');
+                res.should.have.header('X-Application-Version', 'v0.4');
                 
-                res.headers['X-Application-Version'].should.equal('v0.4');
-                
-                res.headers['X-Application-API-Version'].should.equal('v0.1');
+                res.should.have.header('X-Application-API-Version', 'v0.1');
                 
                 res.should.have.property('body');
                 // FIXME add further checks if appropriate
                 
-                var path = require('path');
-                var JaySchema = require('jayschema');
-                var js = new JaySchema(JaySchema.loaders.http);
-                var schema = require(path.join(__dirname, '..', 'schemas', 'deletedCustomer.json'));
-                js.validate(res.body, schema, function(errs) {
-                    should.not.exist(errs);
-                    done();
-                });
-                
-                
+                done();
             });
     });
 });

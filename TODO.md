@@ -15,3 +15,4 @@
 - restapi gui --create --type=ExtJS | JQuery | ???
 - restapi cli --create --type=JavaScript|Java|Python|ClojureScript|Clojure|CLISP|PHP
 - WebUI for testing embedded to doc pages, calling the mock/test server with test data
+- refactor mock server to use the configuration instead of hardwired values

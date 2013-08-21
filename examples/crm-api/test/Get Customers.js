@@ -5,10 +5,11 @@ var request = require('superagent'),
 describe('Successfully retrieves all the customers', function() {
 	var agent = request.agent();
 
-	it('should Successfully retrieves all the customers', function(done) {
+	it('should successfully Successfully retrieves all the customers', function(done) {
 		agent
 			.get('http://localhost:3007/rest/customers')
 			.auth('John', 'Doe')
+			
 			.set('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
 			
 			.set('Accept-Encoding', 'gzip, deflate')
@@ -17,11 +18,11 @@ describe('Successfully retrieves all the customers', function() {
 				should.not.exist(err);
 				res.should.have.status(200);
 				
-				res.headers['Content-Type'].should.equal('application/json');
+				res.should.have.header('Content-Type', 'application/json');
 				
-				res.headers['X-Application-Version'].should.equal('v0.4');
+				res.should.have.header('X-Application-Version', 'v0.4');
 				
-				res.headers['X-Application-API-Version'].should.equal('v0.1');
+				res.should.have.header('X-Application-API-Version', 'v0.1');
 				
 				res.should.have.property('body');
 				// FIXME add further checks if appropriate
@@ -34,6 +35,8 @@ describe('Successfully retrieves all the customers', function() {
 					should.not.exist(errs);
 					done();
 				});
+				
+				
 			});
 	});
 });

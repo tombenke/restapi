@@ -126,7 +126,7 @@ methods:
                         -
                             field: "X-Application-API-Version"
                             content: "v0.1"
-                    validationSchema: createdCustomer.json
+                    validationSchema: customer.json
     DELETE:
         summary: delete a customer
         notes:
@@ -179,15 +179,11 @@ methods:
                     cookies: []
                     headers:
                         -
-                            field: "Content-Type"
-                            content: "application/json"
-                        -
                             field: "X-Application-Version"
                             content: "v0.4"
                         -
                             field: "X-Application-API-Version"
                             content: "v0.1"
-                    validationSchema: deletedCustomer.json
 
     PUT:
         summary: Update a customer
@@ -250,4 +246,4 @@ methods:
                         -
                             field: "X-Application-API-Version"
                             content: "v0.1"
-                    validationSchema: updatedCustomer.json
+                    validationSchema: customer.json

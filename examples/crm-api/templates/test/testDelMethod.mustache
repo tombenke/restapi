@@ -16,7 +16,7 @@ describe('{{description}}', function() {
                 should.not.exist(err);
                 res.should.have.status({{response.statusCode}});
                 {{#response.headers}}
-                res.headers['{{field}}'].should.equal('{{content}}');
+                res.should.have.header('{{field}}', '{{content}}');
                 {{/response.headers}}
                 res.should.have.property('body');
                 // FIXME add further checks if appropriate

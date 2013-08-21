@@ -21,18 +21,18 @@ describe('Succesfully updates a customer', function() {
                 should.not.exist(err);
                 res.should.have.status(200);
                 
-                res.headers['Content-Type'].should.equal('application/json');
+                res.should.have.header('Content-Type', 'application/json');
                 
-                res.headers['X-Application-Version'].should.equal('v0.4');
+                res.should.have.header('X-Application-Version', 'v0.4');
                 
-                res.headers['X-Application-API-Version'].should.equal('v0.1');
+                res.should.have.header('X-Application-API-Version', 'v0.1');
                 
                 res.should.have.property('body');
                 // FIXME add further checks if appropriate
                 
                 var JaySchema = require('jayschema');
                 var js = new JaySchema(JaySchema.loaders.http);
-                var schema = require(path.join(__dirname, '..', 'schemas', 'updatedCustomer.json'));
+                var schema = require(path.join(__dirname, '..', 'schemas', 'customer.json'));
                 js.validate(res.body, schema, function(errs) {
                     should.not.exist(errs);
                     done();

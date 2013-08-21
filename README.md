@@ -179,7 +179,7 @@ The `--overwrite` option tells the tool to overwrite the existing cases, otherwi
 
 ### Run test cases
 
-After the test cases is generaetd, you can run the tests, directly from the command line, or by the continuous integration server. Use one of the following commands:
+After the test cases is generated, you can run the tests, directly from the command line, or by the continuous integration server. Use one of the following commands:
 
     $ make test
 
