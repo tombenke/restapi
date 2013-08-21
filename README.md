@@ -6,7 +6,7 @@
 
 `restapi` needs [Node.js](http://nodejs.org/) and [NPM](https://npmjs.org/) installed on the machine, before start installing and using it.
 
-if you want to change the stylesheets of the generated documentation of the API, you will need [Sass](http://sass-lang.com/) and [Compass](http://compass-style.org/).
+If you want to change the stylesheets of the generated documentation of the API, you will need [Sass](http://sass-lang.com/) and [Compass](http://compass-style.org/).
 
 
 ### Installation steps

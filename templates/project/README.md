@@ -5,43 +5,30 @@ The service descriptors are yaml files under the `services folder`.
 YAML is a user friendly, easily writable format.
 The descriptor is both a documentation of your RESTful API and the input for the test generator.
 
-# Project Layout
+## Preprequisites
 
-test
-: The generated test cases are put here
-: You better create new templates and not modify the generated files
-: However you might choose to apply special, tweeks to a particular case, what you do not want to be overwritten by the generator
-: For this reason the generator skipps already existing files
+To use this project, you will need the following software installed on your machine:
 
-config.yml
-: This is the configuration of the application
-: The `baseUrl` is mandatory
-: The `loginCredentials` is optional, if given the generated test cases should make use of this data
-: You may extend it as needed, if so, make sure tho modify the application to use them
+- [Node.js](http://nodejs.org/),
+- [NPM](https://npmjs.org/),
+- [restapi](https://github.com/tombenke/restapi).
 
-Makefile
-: Used for running the tests
+If you want to change the stylesheets of the generated documentation of the API, you will also need:
 
-# Using
+- [Sass](http://sass-lang.com/), and
+- [Compass](http://compass-style.org/).
 
-First run:
+After, you have created the new project, move into the new projects folder, and install those node modules, the new project needs:
 
-	$ npm install
+    $ cd crm-api
+    $ npm install
 
-This will install the dependencies.
+If you want to use the mock server too, then do this also in its subfolder:
 
-Second. Populate the `templates`, `bodies`, `schemas` to cover your needs. Also fill in the descriptors.
-
-Third. Generate the test cases, by running:
-
-	$ restapi test --update
-
-Fourth. You migh need to fine-tune a test case after generation.
-
-Fifth. You run the tests.
-
-	$ make test
-
-*Note* you might want to use the test command from a CI server for regression testing.
+    $ cd server
+    $ npm install
 
 
+## Further readings
+
+To learn more on how to setup the project, and how to use the tool visit the [restapi  project repository](https://github.com/tombenke/restapi) on GitHub.

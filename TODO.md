@@ -1,4 +1,37 @@
 # TODO
+- Generate an index.html page for docs, that lists all the services
+  - List of services:
+    - Summary on Methods
+        - show: params list
+        - sample call
+    - Link to the details page
+- Set body background-color: rgb(249, 249, 249);
+- Correct the file references in doc pages (test data, validation schemas, etc.)
+- Do cleansing in field names of service.yml
+  - Study the communication to a REST service with FireBug (see details)
+  - Ideas from the programmable web
+    config.yml
+    Summary: JavaScript error logging service
+    Category: Tools
+    Tags: tools internet cloud 
+    Protocols: REST
+    Data Formats: JSON
+    API home: http://jslogger.com/api
+
+        service.yml
+
+    Security
+        Authentication Model:
+        SSL Support: Yes  / No
+        Read-only Without Login:
+     
+- Put a restapi online-help beside the generated docs, wih a link to it, from the Header section
+
+- Write documentation to the service.yml
+- Finish the validation of service.yml with error messages
+- Write a support command to generate JSON schema and service.yml from JSON sample data file.
+- Generate HTTP headers (with parameters) from default service call.
+- Generate Cookies headers (with parameters) from default service call.
 
 # ------------------
 - Use Markdown rendering for textual fields in docs, such as: description, name, etc.
