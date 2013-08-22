@@ -57,12 +57,6 @@ methods:
                         -
                             field: "Content-Type"
                             content: "application/json"
-                        -
-                            field: "X-Application-Version"
-                            content: "v0.4"
-                        -
-                            field: "X-Application-API-Version"
-                            content: "v0.1"
                     validationSchema: customerList.json
 
     POST:
@@ -120,12 +114,6 @@ methods:
                         -
                             field: "Content-Type"
                             content: "application/json"
-                        -
-                            field: "X-Application-Version"
-                            content: "v0.4"
-                        -
-                            field: "X-Application-API-Version"
-                            content: "v0.1"
                     validationSchema: customer.json
     DELETE:
         summary: delete a customer
@@ -179,11 +167,8 @@ methods:
                     cookies: []
                     headers:
                         -
-                            field: "X-Application-Version"
-                            content: "v0.4"
-                        -
-                            field: "X-Application-API-Version"
-                            content: "v0.1"
+                            field: "Content-Type"
+                            content: "application/json"
 
     PUT:
         summary: Update a customer
@@ -240,10 +225,4 @@ methods:
                         -
                             field: "Content-Type"
                             content: "application/json"
-                        -
-                            field: "X-Application-Version"
-                            content: "v0.4"
-                        -
-                            field: "X-Application-API-Version"
-                            content: "v0.1"
                     validationSchema: customer.json
