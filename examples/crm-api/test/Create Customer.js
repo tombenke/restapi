@@ -10,7 +10,7 @@ describe('Succesfully creates a new customer', function() {
 		var body = require(path.join(__dirname, '..', 'services', 'customers', 'postCustomer-responseBody.json'));
 		agent
 			.post('http://localhost:3007/rest/customers')
-			.auth('John', 'Doe')
+			.auth('username', 'password')
 			.send(body)
 			
 			.set('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')

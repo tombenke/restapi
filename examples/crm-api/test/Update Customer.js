@@ -10,7 +10,7 @@ describe('Succesfully updates a customer', function() {
         var body = require(path.join(__dirname, '..', 'services', 'customers', 'customer.json'));
         agent
             .put('http://localhost:3007/rest/customers/1')
-            .auth('John', 'Doe')
+            .auth('username', 'password')
             .send(body)
             
             .set('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')

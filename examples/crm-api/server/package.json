@@ -1,5 +1,5 @@
 {
-    "name" : "restapi-server",
+    "name" : "crm-api-mockServer",
     "version" : "0.1.0",
     "private" : true,
 

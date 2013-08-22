@@ -5,26 +5,14 @@
  * The template can be found here: <project-root>/templates/server/api.js.mustache
  */
 var services = require('restapi').services;
-// var services = require('../../../services.js');
 
-var server = require('./app.js');
+var server = require('./server.js');
 
 //=============================================================================
 // BEGIN mock method implementations
 // The functions below are generated from the corresponding service descriptors
 // The name is defined by the `implementation` property and the content file is defined
 // by the mockBody property. The `get`, `put`, etc. prefix is defined by the method name.
-
-exports.getCustomers = function (request, response, serviceDesc) {
-    // TODO: Write your code here
-    server.writeResponse(response, services.getMockResponseBody(request.method, serviceDesc ) || serviceDesc);
-
-}
-
-exports.postCustomer = function (request, response, serviceDesc) {
-    // TODO: Write your code here
-    server.writeResponse(response, services.getMockResponseBody(request.method, serviceDesc ) || serviceDesc);
-}
 
 // END mock method implementations
 //=============================================================================

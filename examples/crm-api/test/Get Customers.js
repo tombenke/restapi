@@ -8,7 +8,7 @@ describe('Successfully retrieves all the customers', function() {
 	it('should successfully Successfully retrieves all the customers', function(done) {
 		agent
 			.get('http://localhost:3007/rest/customers')
-			.auth('John', 'Doe')
+			.auth('username', 'password')
 			
 			.set('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
 			

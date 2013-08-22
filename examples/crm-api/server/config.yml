@@ -8,13 +8,9 @@ environments:
 
   # This is the default configuration set
   default:
-    appName: CRM
     documentRoot: .
     port: 3007
-    servicesRoot: ../services
-    serviceUrlPrefix: /rest
-    services:
-        - /customers
+    restapiRoot: ..
     useRemoteServices: false
 
   # Override the default config parameters with values specific to the development environment
@@ -33,4 +29,4 @@ environments:
   # production environment specific values
   production:
     port: 3008
-    documentRoot: ../webui/build/CRM/production
+    documentRoot: ../webui/build/crm-api/production

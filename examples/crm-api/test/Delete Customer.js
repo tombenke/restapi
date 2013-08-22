@@ -8,7 +8,7 @@ describe('Successfully delete the customer', function() {
     it('should Successfully delete the customer', function(done) {
         agent
             .del('http://localhost:3007/rest/customers/1')
-            .auth('John', 'Doe')
+            .auth('username', 'password')
             
             .set('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
             
