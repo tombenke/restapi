@@ -1,0 +1,28 @@
+
+<!-- Begin Responses -->
+<div class="shady-block-container">
+    <div class="block-title">
+        <h4>Responses:</h4>
+    </div>
+    <div id="responses">
+    {{#responses}}
+
+        <!-- Begin Response -->
+        <div class="block-container">
+            <div class="block-title">
+                <h5>{{statusCode}} - {{reason}}</h5>
+            </div>
+            <div id="response">
+                <p>Response validation schema: <a href="{{validationSchema}}">{{validationSchema}}</a></p>
+
+                {{> headers.html}}
+
+                {{> cookies.html}}
+            </div>
+        </div>
+        <!-- End of Response -->
+
+    {{/responses}}
+    </div>
+</div>
+<!-- End of Responses -->
