@@ -23,7 +23,7 @@ describe('Successfully retrieves all the customers', function() {
 				// res.should.have.header('X-Application-Version', 'v0.4');
 				
 				// res.should.have.header('X-Application-API-Version', 'v0.1');
-				
+
 				res.should.have.property('body');
 				// FIXME add further checks if appropriate
 				
