@@ -25,7 +25,7 @@ describe('{{description}}', function() {
                 // FIXME add further checks if appropriate
                 {{#response.validationSchema}}
                 var JaySchema = require('jayschema');
-                var js = new JaySchema(JaySchema.loaders.http);
+                var js = new JaySchema();
                 var schema = require(path.join(__dirname, '..', 'schemas', '{{response.validationSchema}}'));
                 js.validate(res.body, schema, function(errs) {
                     should.not.exist(errs);
