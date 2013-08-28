@@ -22,7 +22,7 @@
 
     Security
         Authentication Model:
-        SSL Support: Yes  / No
+        SSL Support: Yes / No
         Read-only Without Login:
      
 - Put a restapi online-help beside the generated docs, wih a link to it, from the Header section
@@ -34,8 +34,13 @@
 - Generate Cookies headers (with parameters) from default service call.
 
 # ------------------
+- implement a service initiator command (generates the service.yml and schemas)
+- add regexp-like 'format' or 'validator' field to request parameters
+  for example:
+    - [0-9][A-Z]|[A-Z][0-9]|[A-Z]{2})([0-9]{3,4})([A-Z]?)
+    - [A-Z]{3}
+- Description of response fields (JSON schema, data model descriptor, meta...?)
 - Use Markdown rendering for textual fields in docs, such as: description, name, etc.
-- Known BUG: Schema validation does not work properly (see examples/crm-api)
 - Rename templates to use .mu postfixes, and put them onto whitelist during dir-copy of prjgen
 - Read parameters for docgen and prjgen contexts (replace hardcoded objects)
 - Dynamically require implementation modules into the mock server

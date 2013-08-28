@@ -30,7 +30,7 @@ exports.create = function (context, mode) {
             "docs",
             "templates/docs"
         ].forEach(function(dirName) {
-            generator.copyDir(dirName, path.resolve(__dirname, "templates/project"), "", context, {
+            generator.copyDir(dirName, path.resolve(__dirname, "templates/project"), context.projectName, context, {
                 forceDelete: true, // Whether to overwrite existing directory or not
                 excludeHiddenUnix: true, // Whether to copy hidden Unix files or not (preceding .)
                 preserveFiles: false, // If we're overwriting something and the file already exists, keep the existing

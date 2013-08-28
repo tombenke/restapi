@@ -1,4 +1,4 @@
-appName: {{projectName}}
+projectName: {{projectName}}
 apiVersion: v0.0.0
 author: {{author}}
 licence: {{licence}}

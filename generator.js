@@ -28,7 +28,7 @@ exports.createDirectoryTree = function(rootDirName, projectTree, removeIfExist) 
 
 exports.copyDir = function(dirName, sourceBaseDir, targetBaseDir, context, opts) {
     var sourceDirName = path.resolve(sourceBaseDir, dirName),
-        destDirName = path.resolve(context.projectName, targetBaseDir, dirName);
+        destDirName = path.resolve(targetBaseDir, dirName);
 
     verbose && console.log('Copy dir from: ' + sourceDirName + ' to: ' + destDirName);
     wrench.copyDirSyncRecursive(sourceDirName, destDirName, opts);
@@ -38,7 +38,7 @@ exports.copyFile = function(fileName, sourceBaseDir, targetBaseDir, context) {
         console.log('copyFile...' + fileName);
 
     var sourceFileName = path.resolve(sourceBaseDir, fileName),
-        destFileName = path.resolve(context.projectName, targetBaseDir, fileName);
+        destFileName = path.resolve(targetBaseDir, fileName);
 
     verbose && console.log('Copy file from: ' + sourceFileName + ' to: ' + destFileName);
     fs.writeFileSync(destFileName, fs.readFileSync(sourceFileName));

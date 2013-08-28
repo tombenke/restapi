@@ -148,7 +148,7 @@ var loadServices = function(baseFolder, servicesToLoad) {
 };
 
 exports.getMockResponseBody = function(method, serviceDesc) {
-    var mockResponseBody = false;
+    var mockResponseBody = '';
 
     var mockBody = '';
 
