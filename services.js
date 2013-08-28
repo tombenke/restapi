@@ -237,6 +237,7 @@ exports.getAllTestCases = function () {
                                 name: testCaseDesc.name,
                                 description: testCaseDesc.description,
                                 url: testCaseDesc.url,
+                                contentPath: serviceDesc.contentPath,
                                 template: testCaseDesc.template,
                                 request: testCaseDesc.request,
                                 response: testCaseDesc.response
