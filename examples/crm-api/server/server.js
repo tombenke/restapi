@@ -3,8 +3,8 @@ var express = require( 'express' );
 var request = require( 'request' );
 var api = require('./api.js');
 var monitoring = require('./monitoring.js');
-var services = require('restapi').services;
-// var services = require('../../../index.js').services;
+// var services = require('restapi').services;
+var services = require('../../../index.js').services;
 var httpProxy = require('http-proxy');
 var proxy = new httpProxy.RoutingProxy();
 
@@ -106,10 +106,11 @@ var reformatUrlPattern = function (urlPattern) {
 
 // Setup the services for mocking
 function registerServiceMethod(serviceDesc, method) {
-    console.log('register service ' + method + ' ' + serviceDesc.urlPattern);
     var methodDesc = serviceDesc.methods[method];
+    var urlPattern = methodDesc.urlPattern;
     var implementation = eval( serviceDesc.methods[method].implementation ) || defaultServiceCall;
-    server[method.toLowerCase()](servicesConfig.serviceUrlPrefix + reformatUrlPattern(serviceDesc.urlPattern), function(request, response) {
+    console.log('register service ' + method + ' ' + urlPattern);
+    server[method.toLowerCase()](servicesConfig.serviceUrlPrefix + reformatUrlPattern(urlPattern), function(request, response) {
         implementation(request, response, serviceDesc);
     });
 }

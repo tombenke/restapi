@@ -1,12 +1,12 @@
 name: Customer service
 description: This is the description of the service to customer resources
-urlPattern: /customers
 style: RESOURCE
 methods:
     GET:
         summary: list all the customers
         notes:
         implementation: api.getCustomers
+        urlPattern: /customers
         request:
             parameters: []
             cookies: []
@@ -63,6 +63,7 @@ methods:
         summary: Create a new customer
         notes:
         implementation: api.postCustomer
+        urlPattern: /customers
         request:
             parameters: []
             cookies: []
@@ -119,6 +120,7 @@ methods:
         summary: delete a customer
         notes:
         implementation: api.deleteCustomer
+        urlPattern: /customers/{id}
         request:
             parameters: [{"name": "id", "kind": "QUERY", "required": true, "type": "integer", "summary": "The id of the customer record to be deleted", "default": 1}]
             cookies: []
@@ -146,7 +148,6 @@ methods:
                     -
                         field: X-Application-API-Version
                         content: v0.1 # This value must be parametric
-                mockBody: deleteCustomer-responseBody.json
         testCases:
             -
                 name: Delete Customer
@@ -174,6 +175,7 @@ methods:
         summary: Update a customer
         notes:
         implementation: api.putCustomer
+        urlPattern: /customers/{id}
         request:
             parameters: [{"name": "id", "kind": "QUERY", "required": true, "type": "integer", "summary": "The id of the customer record to be updated", "default": 1}]
             cookies: []

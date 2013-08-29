@@ -3,13 +3,13 @@ description: |
     It is a very simple service, 
     which makes possible to monitor that the server is running
     and is able to answer HTTP requests
-urlPattern: /monitoring/isAlive
 style: OPERATION
 methods:
     GET:
         summary: Is server alive?
         notes: Responses true if server is working
         implementation: monitoring.isAlive
+        urlPattern: /monitoring/isAlive
         request:
             parameters: []
             cookies: []
