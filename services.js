@@ -66,7 +66,6 @@ var validateServiceDescriptor = function (serviceDesc) {
     serviceDesc.should.be.a('object');
     serviceDesc.should.have.property('name');
     serviceDesc.should.have.property('description');
-    serviceDesc.should.have.property('urlPattern');
     serviceDesc.should.have.property('style');
     serviceDesc.should.have.property('methods');
 
@@ -80,6 +79,7 @@ var validateServiceDescriptor = function (serviceDesc) {
             serviceMethod.should.have.property('summary');
             serviceMethod.should.have.property('notes');
             // serviceMethod.should.have.property('implementation');
+            serviceMethod.should.have.property('urlPattern');
             serviceMethod.should.have.property('request');
             serviceMethod.should.have.property('responses');
             serviceMethod.should.have.property('testCases');

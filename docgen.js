@@ -39,7 +39,7 @@ var initDocsFolder = function(context, mode) {
 
 var generateDocFileName = function (serviceDesc) {
     console.log('generateDocFileName', serviceDesc);
-    return serviceDesc.urlPattern.replace(/\//g, "_").replace(/^_/,"") + '.html';
+    return serviceDesc.name.toLowerCase().replace(/ /g, "_") + '.html';
 };
 
 var generateServiceDoc = function(serviceDesc, context) {
