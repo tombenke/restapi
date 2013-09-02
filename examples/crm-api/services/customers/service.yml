@@ -120,7 +120,7 @@ methods:
         notes:
         implementation: api.deleteCustomer
         request:
-            parameters: []
+            parameters: [{"name": "id", "kind": "QUERY", "required": true, "type": "integer", "summary": "The id of the customer record to be deleted", "default": 1}]
             cookies: []
             headers:
                 -
@@ -175,7 +175,7 @@ methods:
         notes:
         implementation: api.putCustomer
         request:
-            parameters: []
+            parameters: [{"name": "id", "kind": "QUERY", "required": true, "type": "integer", "summary": "The id of the customer record to be updated", "default": 1}]
             cookies: []
             headers:
                 -
