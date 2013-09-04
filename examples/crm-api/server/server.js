@@ -107,7 +107,7 @@ var reformatUrlPattern = function (urlPattern) {
 // Setup the services for mocking
 function registerServiceMethod(serviceDesc, method) {
     var methodDesc = serviceDesc.methods[method];
-    var urlPattern = methodDesc.urlPattern;
+    var urlPattern = serviceDesc.urlPattern;
     var implementation = eval( serviceDesc.methods[method].implementation ) || defaultServiceCall;
     console.log('register service ' + method + ' ' + urlPattern);
     server[method.toLowerCase()](servicesConfig.serviceUrlPrefix + reformatUrlPattern(urlPattern), function(request, response) {

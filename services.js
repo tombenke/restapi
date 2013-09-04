@@ -3,6 +3,7 @@
  */
 
 var path = require( 'path' );
+var fs = require('fs');
 
 // Load the YAML parser module
 require( 'js-yaml' );
@@ -13,13 +14,18 @@ var should = require( 'should' );
 var config = {};    // restapi configuration file
 var services = {};  // Descriptors of all services
 
-var loadFile = function (contentFileName) {
+var loadFile = function (contentFileName, encoding) {
+    console.log('loadFile:' + contentFileName);
+    return(fs.readFileSync(contentFileName, encoding));
+};
+
+var loadJsonFile = function (contentFileName) {
     var content = require(contentFileName);
     return content;
 };
 
 var loadConfig = function(configFileName) {
-    return loadFile(configFileName);
+    return loadJsonFile(configFileName);
 };
 
 var validateServiceParameter = function (parameter) {
@@ -67,6 +73,7 @@ var validateServiceDescriptor = function (serviceDesc) {
     serviceDesc.should.have.property('name');
     serviceDesc.should.have.property('description');
     serviceDesc.should.have.property('style');
+    serviceDesc.should.have.property('urlPattern');
     serviceDesc.should.have.property('methods');
 
     serviceDesc.methods.should.be.a('object');
@@ -79,7 +86,6 @@ var validateServiceDescriptor = function (serviceDesc) {
             serviceMethod.should.have.property('summary');
             serviceMethod.should.have.property('notes');
             // serviceMethod.should.have.property('implementation');
-            serviceMethod.should.have.property('urlPattern');
             serviceMethod.should.have.property('request');
             serviceMethod.should.have.property('responses');
             serviceMethod.should.have.property('testCases');
@@ -147,22 +153,47 @@ var loadServices = function(baseFolder, servicesToLoad) {
     return services;
 };
 
+var findHeaderValue = function ( headers, field ) {
+    var content = null;
+    headers.forEach(function(header) {
+        // console.log(header);
+        if(header.field.toLowerCase() === field.toLowerCase()) {
+            // console.log('Found ', header.content);
+            content = header.content;
+        }
+    });
+    return content;
+};
+
 exports.getMockResponseBody = function(method, serviceDesc) {
     var mockResponseBody = '';
 
     var mockBody = '';
+    var contentType = 'application/json';
 
     serviceDesc.methods[method].responses.forEach(function(response) {
         if (response.name === 'OK' &&
             typeof response.mockBody != 'undefined' &&
             response.mockBody != null) {
             mockBody = response.mockBody;
+            contentType = findHeaderValue( response.headers, 'Content-Type' );
         }
     });
 
-    console.log('mockBody: ', mockBody);
+    console.log('mockBody: ' + mockBody + ' contentType: ' + contentType);
     if ( mockBody !== '' ) {
-        mockResponseBody = loadFile(serviceDesc.contentPath + '/' + mockBody);
+        mockBody = serviceDesc.contentPath + '/' + mockBody;
+        if( contentType === 'application/json') {
+            mockResponseBody = loadJsonFile(mockBody);
+        } else {
+            if( contentType === 'text/plain' ||
+                contentType === 'text/html' ||
+                contentType === 'text/xml') {
+                mockResponseBody = loadFile(mockBody, 'utf-8');
+            } else {
+                mockResponseBody = loadFile(mockBody, null);
+            }
+        }
     }
     return mockResponseBody;
 };

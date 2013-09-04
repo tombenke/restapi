@@ -9,6 +9,7 @@ servicesRoot: services
 services:
     - /monitoring/isAlive
     - /customers
+    - /customers/customer
     # To add new services, put here the path of the directory that contains the service.yml
 
 loginCredentials:

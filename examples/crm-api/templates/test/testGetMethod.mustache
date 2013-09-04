@@ -9,28 +9,23 @@ describe('{{description}}', function() {
 		agent
 			.get('{{baseUrl}}{{url}}')
 			{{#loginCredentials}}.auth('{{user}}', '{{pass}}'){{/loginCredentials}}
-			{{#request.headers}}
-			.set('{{field}}', '{{content}}')
-			{{/request.headers}}
+			.set('Accept', 'application/json')
 			.end(function(err, res) {
 				should.not.exist(err);
-				res.should.have.status({{response.statusCode}});
-				{{#response.headers}}
-				res.should.have.header('{{field}}', '{{content}}');
-				{{/response.headers}}
+				res.should.have.status(200);
 				res.should.have.property('body');
 				// FIXME add further checks if appropriate
-				{{#response.validationSchema}}
+				{{#jsonschema}}
 				var path = require('path');
 				var JaySchema = require('jayschema');
-				var js = new JaySchema();
-				var schema = require(path.join(__dirname, '..', 'schemas', '{{response.validationSchema}}'));
+				var js = new JaySchema(JaySchema.loaders.http);
+				var schema = require(path.join(__dirname, '..', 'schemas', '{{jsonschema}}.json'));
 				js.validate(res.body, schema, function(errs) {
 					should.not.exist(errs);
 					done();
 				});
-				{{/response.validationSchema}}
-				{{^response.validationSchema}}done();{{/response.validationSchema}}
+				{{/jsonschema}}
+				{{^jsonschema}}done();{{/jsonschema}}
 			});
 	});
 });

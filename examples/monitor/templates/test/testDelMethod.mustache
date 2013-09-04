@@ -6,12 +6,9 @@ describe('{{description}}', function() {
     var agent = request.agent();
 
     it('should {{description}}', function(done) {
-        var path = require('path');
-        var body = require(path.join('{{contentPath}}', '/', '{{#request}}{{body}}{{/request}}'));
         agent
-            .put('{{baseUrl}}{{url}}')
+            .del('{{baseUrl}}{{url}}')
             {{#loginCredentials}}.auth('{{user}}', '{{pass}}'){{/loginCredentials}}
-            .send(body)
             {{#request.headers}}
             .set('{{field}}', '{{content}}')
             {{/request.headers}}
@@ -24,6 +21,7 @@ describe('{{description}}', function() {
                 res.should.have.property('body');
                 // FIXME add further checks if appropriate
                 {{#response.validationSchema}}
+                var path = require('path');
                 var JaySchema = require('jayschema');
                 var js = new JaySchema();
                 var schema = require(path.join(__dirname, '..', 'schemas', '{{response.validationSchema}}'));

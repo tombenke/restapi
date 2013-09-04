@@ -2,13 +2,16 @@ var request = require('superagent'),
 	should = require('should'),
 	mocha = require('mocha');
 
-describe('Successfully retrieves all the customers', function() {
+describe('Succesfully creates a new customer', function() {
 	var agent = request.agent();
 
-	it('should successfully Successfully retrieves all the customers', function(done) {
+	it('should successfully Succesfully creates a new customer', function(done) {
+		var path = require('path');
+		var body = require(path.join('/home/tombenke/topics/restapi/examples/crm-api/services/customers', '/', 'postCustomer-responseBody.json'));
 		agent
-			.get('http://localhost:3007/rest/customers')
+			.post('http://localhost:3007/rest/customers')
 			.auth('username', 'password')
+			.send(body)
 			.set('Accept', 'application/json')
 			.end(function(err, res) {
 				should.not.exist(err);

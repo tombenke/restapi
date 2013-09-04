@@ -5,7 +5,7 @@
 describe('{{description}}', function() {
 	var agent = request.agent();
 
-	it('should successfully {{description}}', function(done) {
+	it('should {{description}}', function(done) {
 		var path = require('path');
 		var body = require(path.join('{{contentPath}}', '/', '{{#request}}{{body}}{{/request}}'));
 		agent

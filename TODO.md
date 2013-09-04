@@ -5,6 +5,7 @@
         - show: params list
         - sample call
     - Link to the details page
+- Use relative path to docs/<data-files>, copy services/* to docs during documentation generation
 - Set body background-color: rgb(249, 249, 249);
 - Correct the file references in doc pages (test data, validation schemas, etc.)
 - Do cleansing in field names of service.yml
@@ -34,6 +35,9 @@
 - Generate Cookies headers (with parameters) from default service call.
 
 # ------------------
+- Study RSDL, and may implement a converter to/from.
+  [RSDL](https://access.redhat.com/site/documentation/en-US/Red_Hat_Enterprise_Virtualization/3.1/html/Developer_Guide/sect-Developer_Guide.entry_Point-RSDL.html)
+
 - implement a service initiator command (generates the service.yml and schemas)
 - add regexp-like 'format' or 'validator' field to request parameters
   for example:

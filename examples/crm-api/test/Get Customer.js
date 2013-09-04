@@ -2,12 +2,12 @@ var request = require('superagent'),
 	should = require('should'),
 	mocha = require('mocha');
 
-describe('Successfully retrieves all the customers', function() {
+describe('Successfully retrieves one customer', function() {
 	var agent = request.agent();
 
-	it('should successfully Successfully retrieves all the customers', function(done) {
+	it('should successfully Successfully retrieves one customer', function(done) {
 		agent
-			.get('http://localhost:3007/rest/customers')
+			.get('http://localhost:3007/rest/customers/1')
 			.auth('username', 'password')
 			.set('Accept', 'application/json')
 			.end(function(err, res) {
