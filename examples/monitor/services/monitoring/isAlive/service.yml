@@ -9,7 +9,7 @@ methods:
     GET:
         summary: Is server alive?
         notes: Responses true if server is working
-        implementation: monitoring.isAlive
+        # implementation: monitoring.isAlive
         request:
             parameters: []
             cookies: []

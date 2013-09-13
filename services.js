@@ -116,7 +116,7 @@ exports.load = function(restapiRoot) {
     var baseFolder = path.resolve(restapiRoot, config.servicesRoot),
         servicesToLoad = config.services;
 
-    return loadServices(baseFolder, servicesToLoad);
+    return loadServices(restapiRoot, config.servicesRoot, servicesToLoad);
 };
 
 var updateMethodLists = function (serviceDescriptor) {
@@ -130,7 +130,10 @@ var updateMethodLists = function (serviceDescriptor) {
     }
 };
 
-var loadServices = function(baseFolder, servicesToLoad) {
+var loadServices = function(restapiRoot, servicesRoot, servicesToLoad) {
+    var baseFolder = path.resolve(restapiRoot, servicesRoot);
+    console.log('loadServices from ', baseFolder);
+
     // serviceFolders
     servicesToLoad.forEach(function (servicePath) {
         var serviceDescriptorFileName = baseFolder + servicePath + '/service.yml';
@@ -147,7 +150,8 @@ var loadServices = function(baseFolder, servicesToLoad) {
 
         // Set service description to services map
         console.log(serviceDescriptorFileName + 'service is loaded.\n');
-        serviceDescriptor.contentPath = baseFolder + servicePath;
+        serviceDescriptor.restapiRoot = restapiRoot;
+        serviceDescriptor.contentPath = servicesRoot + servicePath;
         services[serviceDescriptor.urlPattern] = serviceDescriptor;
     });
     return services;
@@ -182,7 +186,7 @@ exports.getMockResponseBody = function(method, serviceDesc) {
 
     console.log('mockBody: ' + mockBody + ' contentType: ' + contentType);
     if ( mockBody !== '' ) {
-        mockBody = serviceDesc.contentPath + '/' + mockBody;
+        mockBody = restapiRoot + serviceDesc.contentPath + '/' + mockBody;
         if( contentType === 'application/json') {
             mockResponseBody = loadJsonFile(mockBody);
         } else {

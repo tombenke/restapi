@@ -1,0 +1,156 @@
+{
+  "name": "Monitoring that server is alive",
+  "description": "It is a very simple service, \nwhich makes possible to monitor that the server is running\nand is able to answer HTTP requests\n",
+  "style": "OPERATION",
+  "urlPattern": "/monitoring/isAlive",
+  "methods": {
+    "GET": {
+      "summary": "Is server alive?",
+      "notes": "Responses true if server is working",
+      "request": {
+        "parameters": [],
+        "cookies": [],
+        "headers": [
+          {
+            "field": "Accept",
+            "content": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+          },
+          {
+            "field": "Accept-Encoding",
+            "content": "gzip, deflate"
+          }
+        ]
+      },
+      "responses": [
+        {
+          "name": "OK",
+          "statusCode": 200,
+          "reason": "Successful execution",
+          "cookies": [],
+          "headers": [
+            {
+              "field": "Content-Type",
+              "content": "application/json"
+            },
+            {
+              "field": "X-Application-API-Version",
+              "content": "v0.0.0"
+            }
+          ]
+        }
+      ],
+      "testCases": [
+        {
+          "name": "Get Monitoring Is Alive",
+          "description": "Successfully checks if server is alive",
+          "url": "/monitoring/isAlive",
+          "template": "testGetMethod.mustache",
+          "request": {
+            "cookies": [],
+            "headers": [
+              {
+                "field": "Accept",
+                "content": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+              },
+              {
+                "field": "Accept-Encoding",
+                "content": "gzip, deflate"
+              }
+            ]
+          },
+          "response": {
+            "statusCode": 200,
+            "cookies": [],
+            "headers": [
+              {
+                "field": "Content-Type",
+                "content": "application/json"
+              },
+              {
+                "field": "X-Application-API-Version",
+                "content": "v0.0.0"
+              }
+            ]
+          }
+        }
+      ],
+      "methodName": "GET"
+    }
+  },
+  "methodList": [
+    {
+      "summary": "Is server alive?",
+      "notes": "Responses true if server is working",
+      "request": {
+        "parameters": [],
+        "cookies": [],
+        "headers": [
+          {
+            "field": "Accept",
+            "content": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+          },
+          {
+            "field": "Accept-Encoding",
+            "content": "gzip, deflate"
+          }
+        ]
+      },
+      "responses": [
+        {
+          "name": "OK",
+          "statusCode": 200,
+          "reason": "Successful execution",
+          "cookies": [],
+          "headers": [
+            {
+              "field": "Content-Type",
+              "content": "application/json"
+            },
+            {
+              "field": "X-Application-API-Version",
+              "content": "v0.0.0"
+            }
+          ]
+        }
+      ],
+      "testCases": [
+        {
+          "name": "Get Monitoring Is Alive",
+          "description": "Successfully checks if server is alive",
+          "url": "/monitoring/isAlive",
+          "template": "testGetMethod.mustache",
+          "request": {
+            "cookies": [],
+            "headers": [
+              {
+                "field": "Accept",
+                "content": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+              },
+              {
+                "field": "Accept-Encoding",
+                "content": "gzip, deflate"
+              }
+            ]
+          },
+          "response": {
+            "statusCode": 200,
+            "cookies": [],
+            "headers": [
+              {
+                "field": "Content-Type",
+                "content": "application/json"
+              },
+              {
+                "field": "X-Application-API-Version",
+                "content": "v0.0.0"
+              }
+            ]
+          }
+        }
+      ],
+      "methodName": "GET"
+    }
+  ],
+  "restapiRoot": "/home/tombenke/topics/restapi/examples/crm-api/server/..",
+  "contentPath": "services/monitoring/isAlive"
+}

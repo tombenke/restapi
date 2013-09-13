@@ -34,7 +34,7 @@ methods:
                     -
                         field: X-Application-API-Version
                         content: v0.1 # This value must be parametric
-                # mockBody: getCustomers-responseBody.json
+                mockBody: getCustomers-responseBody.json
         testCases:
             -
                 name: Get Customers

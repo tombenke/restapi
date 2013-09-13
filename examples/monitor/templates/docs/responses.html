@@ -13,7 +13,10 @@
                 <h5>{{statusCode}} - {{reason}}</h5>
             </div>
             <div id="response">
-                <p>Response validation schema: <a href="{{validationSchema}}">{{validationSchema}}</a></p>
+                <p>Validation schema: 
+                    <a href="/{{contentPath}}/{{validationSchema}}">{{validationSchema}}</a></p>
+                <p>mock body: 
+                    <a href="/{{contentPath}}/{{mockBody}}">{{mockBody}}</a></p>
 
                 {{> headers.html}}
 

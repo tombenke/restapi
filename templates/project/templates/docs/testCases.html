@@ -23,6 +23,10 @@
                     </div>
                     <div id="request">
                     {{#request}}
+                        <p>Validation schema: 
+                            <a href="/{{contentPath}}/{{validationSchema}}">{{validationSchema}}</a></p>
+                        <p>mock body: 
+                            <a href="/{{contentPath}}/{{mockBody}}">{{mockBody}}</a></p>
                     {{> headers.html}}
                     {{> cookies.html}}
                     {{/request}}
@@ -35,8 +39,13 @@
                     <div class="block-title">
                         <h4>Response:</4>
                     </div>
-                    <div id="request">
+                    <div id="response">
                     {{#response}}
+                        <p>Validation schema: 
+                            <a href="/{{contentPath}}/{{validationSchema}}">{{validationSchema}}</a></p>
+                        <p>mock body: 
+                            <a href="/{{contentPath}}/{{mockBody}}">{{mockBody}}</a></p>
+
                     {{> headers.html}}
                     {{> cookies.html}}
                     {{/response}}

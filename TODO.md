@@ -5,9 +5,8 @@
         - show: params list
         - sample call
     - Link to the details page
-- Use relative path to docs/<data-files>, copy services/* to docs during documentation generation
+- Watch the http://www.restapitutorial.com/lessons/whatisrest.html
 - Set body background-color: rgb(249, 249, 249);
-- Correct the file references in doc pages (test data, validation schemas, etc.)
 - Do cleansing in field names of service.yml
   - Study the communication to a REST service with FireBug (see details)
   - Ideas from the programmable web
