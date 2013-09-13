@@ -52,6 +52,7 @@ server.configure( function() {
         server.use( server.router );
         server.use( '/data', express.static( __dirname + '/' + '../data' ) );
         server.use( '/docs', express.static( __dirname + '/' + '../docs' ) );
+        server.use( '/services', express.static( __dirname + '/../services' ) );
         server.use( express.static( __dirname + '/' + config.documentRoot ) );
     });
 

@@ -186,7 +186,7 @@ exports.getMockResponseBody = function(method, serviceDesc) {
 
     console.log('mockBody: ' + mockBody + ' contentType: ' + contentType);
     if ( mockBody !== '' ) {
-        mockBody = restapiRoot + serviceDesc.contentPath + '/' + mockBody;
+        mockBody = serviceDesc.restapiRoot + '/' + serviceDesc.contentPath + '/' + mockBody;
         if( contentType === 'application/json') {
             mockResponseBody = loadJsonFile(mockBody);
         } else {
