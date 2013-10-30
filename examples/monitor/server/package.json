@@ -8,6 +8,6 @@
         "request" : "*",
         "http-proxy": "*",
         "js-yaml" : "*",
-        "should" : "*"
+        "should" : "2.0.2"
     }
 }
