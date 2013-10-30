@@ -1,7 +1,7 @@
 {
   "name": "restapi",
   "description": "A tool to document emulate and test RESTful APIs.",
-  "version": "0.6.2",
+  "version": "0.6.3",
   "private": true,
   "tags": [
     "rest",
