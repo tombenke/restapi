@@ -29,7 +29,7 @@ var loadConfig = function(configFileName) {
 };
 
 var validateServiceParameter = function (parameter) {
-    parameter.should.be.a('object');
+    parameter.should.be.an.Object;
     parameter.should.have.property('name');
     parameter.should.have.property('kind');
     ['URL', 'QUERY', 'BODY'].should.include(parameter.kind);
@@ -41,27 +41,27 @@ var validateServiceParameter = function (parameter) {
 };
 
 var validateServiceStatusCode = function (statusCode) {
-    statusCode.should.be.a('object');
+    statusCode.should.be.an.Object;
     statusCode.should.have.property('statusCode');
     statusCode.should.have.property('reason');
 };
 
 var validateServiceCookie = function (cookie) {
-    cookie.should.be.a('object');
+    cookie.should.be.an.Object;
     cookie.should.have.property('Cookie');
 };
 
 var validateServiceExample = function (example) {
-    example.should.be.a('object');
+    example.should.be.an.Object;
     example.should.have.property('url');
 
     example.should.have.property('request');
-    example.request.should.be.a('object');
+    example.request.should.be.an.Object;
     example.request.should.have.property('cookies').and.be.an.instanceOf(Array);
     example.request.should.have.property('headers').and.be.an.instanceOf(Array);
 
     example.should.have.property('response');
-    example.response.should.be.a('object');
+    example.response.should.be.an.Object;
     example.response.should.have.property('cookies').and.be.an.instanceOf(Array);
     example.response.should.have.property('headers').and.be.an.instanceOf(Array);
     example.response.should.have.property('statusCode');
@@ -69,20 +69,20 @@ var validateServiceExample = function (example) {
 };
 
 var validateServiceDescriptor = function (serviceDesc) {
-    serviceDesc.should.be.a('object');
+    serviceDesc.should.be.an.Object;
     serviceDesc.should.have.property('name');
     serviceDesc.should.have.property('description');
     serviceDesc.should.have.property('style');
     serviceDesc.should.have.property('urlPattern');
     serviceDesc.should.have.property('methods');
 
-    serviceDesc.methods.should.be.a('object');
+    serviceDesc.methods.should.be.an.Object;
 
     for( var method in serviceDesc.methods ) {
         if( serviceDesc.methods.hasOwnProperty(method) ) {
             ['GET', 'PUT', 'POST', 'DELETE'].should.include( method );
             var serviceMethod = serviceDesc.methods[method];
-            serviceMethod.should.be.a('object');
+            serviceMethod.should.be.an.Object;
             serviceMethod.should.have.property('summary');
             serviceMethod.should.have.property('notes');
             // serviceMethod.should.have.property('implementation');

@@ -16,10 +16,10 @@ var loadConfiguration = function( configFileName ) {
     // Load the YAML format config file
     configFile = require( configFileName );
 
-    configFile.should.be.a( 'object' );
+    configFile.should.be.an.Object;
     configFile.should.have.property( 'useEnvironment' );
     configFile.should.have.property( 'environments' );
-    configFile.environments.should.be.a( 'object' );
+    configFile.environments.should.be.an.Object;
     configFile.environments.should.have.property( 'default' );
     // configFile.environments[ 'default' ].useEnvironment = configFile.useEnvironment || "default";
 
@@ -30,7 +30,7 @@ var loadConfiguration = function( configFileName ) {
 var setEnvironment = function ( environment ) {
 
     if( environment != null &&
-        configFile.environments[ environment ].should.be.a( 'object' ) ) {
+        configFile.environments[ environment ].should.be.an.Object ) {
         // Process default values combined with
         // the parameters of the selected environment
 
