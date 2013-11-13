@@ -1,27 +1,27 @@
 {
-    "name" : "restapi",
-    "description": "A tool to document emulate and test RESTful APIs.",
-    "version" : "0.0.1",
-    "private" : true,
-    "tags": [
-        "rest",
-        "restful",
-        "api",
-        "docs",
-        "util",
-        "utility"
-    ],
-    "author": {
-        "name": "Tamás Benke",
-        "email": "tombenke@gmail.com"
-    },
-    "repository": {
-        "type": "git",
-        "url": "http://github.com/tombenke/restapi.git"
-    },
-    "main" : "main.js",
-    "dependencies" : {
-        "js-yaml" : "*",
-        "should" : "2.0.2"
-    }
+  "name": "restapi",
+  "description": "A tool to document emulate and test RESTful APIs.",
+  "version": "0.0.2",
+  "private": true,
+  "tags": [
+    "rest",
+    "restful",
+    "api",
+    "docs",
+    "util",
+    "utility"
+  ],
+  "author": {
+    "name": "Tamás Benke",
+    "email": "tombenke@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/tombenke/restapi.git"
+  },
+  "main": "main.js",
+  "dependencies": {
+    "js-yaml": "*",
+    "should": "2.0.2"
+  }
 }
