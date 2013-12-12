@@ -44,11 +44,11 @@ server.set('env', config.environment );
 
 // Configure the middlewares
 server.configure( function() {
+        server.use( apiProxy(config.remoteHost, config.remotePort) );
         server.use( express.bodyParser() );
         server.use( express.methodOverride() );
         server.use( express.cookieParser() );
         server.use( express.session( {secret: 'keyboard cat'} ) );
-        server.use( apiProxy(config.remoteHost, config.remotePort) );
         server.use( server.router );
         server.use( '/data', express.static( __dirname + '/' + '../data' ) );
         server.use( '/docs', express.static( __dirname + '/' + '../docs' ) );

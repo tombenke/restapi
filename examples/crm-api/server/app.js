@@ -41,11 +41,11 @@ app.set('env', config.environment );
 
 // Configure the middlewares
 app.configure( function() {
+        app.use( apiProxy(config.remoteHost, config.remotePort) );
         app.use( express.bodyParser() );
         app.use( express.methodOverride() );
         app.use( express.cookieParser() );
         app.use( express.session( {secret: 'keyboard cat'} ) );
-        app.use( apiProxy(config.remoteHost, config.remotePort) );
         app.use( app.router );
         // app.use( '/data', express.static( __dirname + '/' + '../resources/data' ) );
         app.use( '/docs', express.static( __dirname + '/' + '../docs/build' ) );
