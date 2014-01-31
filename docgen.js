@@ -69,7 +69,7 @@ var generateServiceDoc = function(serviceDesc, context) {
 var mapOwnProperties = function(obj, func) {
     for (var property in obj) {
         if (obj.hasOwnProperty(property)) {
-            console.log('mapOwnProperty obj[' + property + '] : ' + obj[property]);
+            // console.log('mapOwnProperty obj[' + property + '] : ' + obj[property]);
             func(obj[property]);
         }
     }

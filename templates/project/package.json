@@ -11,6 +11,7 @@
   "dependencies": {
     "should": "latest",
     "superagent": "0.15.x",
+    "restapi": "git+https://github.com/tombenke/restapi.git",
     "mu2": "latest",
     "mocha": "latest",
     "jayschema": "0.2.x",
