@@ -2,21 +2,13 @@
 - restapi - "use strict" and try jshint
 - add .gitignore to project template
 - Use Markdown rendering for textual fields in docs, such as: description, summary and details
+- Generate an index.html page for docs, that lists all the services
+  - List of services
+  - Link to the details page
 
-# TODO
+# nextActions:
 - bugfix:
     - default response is binary without content-type header
-
-- Generate an index.html page for docs, that lists all the services
-  - List of services:
-    - Summary on Methods
-        - show: params list
-        - sample call
-    - Link to the details page
-
-- Upgrade to new modules
-    - http-proxy v1.0.0 total api refactor
-    - express (/connect)
 
 - Watch the http://www.restapitutorial.com/lessons/whatisrest.html
 
@@ -47,8 +39,15 @@
 - Write a support command to generate JSON schema and service.yml from JSON sample data file.
 - Generate HTTP headers (with parameters) from default service call.
 - Generate Cookies, headers (with parameters) from default service call.
+- Extend docs/index.html:
+  - Summary on Methods
+    - show: params list
+    - sample call
+- Upgrade to new modules
+    - http-proxy v1.0.0 total api refactor
+    - express (/connect)
 
-# ------------------
+# maybe:
 - Study RSDL, and may implement a converter to/from.
   [RSDL](https://access.redhat.com/site/documentation/en-US/Red_Hat_Enterprise_Virtualization/3.1/html/Developer_Guide/sect-Developer_Guide.entry_Point-RSDL.html)
 

@@ -42,7 +42,6 @@ var initDocsFolder = function(context, mode) {
 };
 
 var generateDocFileName = function (serviceDesc) {
-    // console.log('generateDocFileName', serviceDesc);
     return serviceDesc.name.toLowerCase().replace(/ /g, "_") + '.html';
 };
 
@@ -68,7 +67,6 @@ var convertMarkdown = function(doc) {
             if (propertyName === 'description' ||
                 propertyName === 'summary' ||
                 propertyName === 'details' ) {
-                console.log('convert ' + propertyName, property);
                 newDoc[propertyName] = marked(property);
             } else {
                 newDoc[propertyName] = property;
@@ -79,16 +77,11 @@ var convertMarkdown = function(doc) {
     return newDoc;
 };
 
-var generateServiceDoc = function(serviceDesc, context) {
-    var templateFileName = path.join(process.cwd(), 'templates', 'docs', 'restapi.html'),
-        fileName = path.join(process.cwd(), 'docs', generateDocFileName(serviceDesc)),
-        buffer = '',
-        view = {};
-    console.log('Generate service doc: ' + serviceDesc.name);
-    if (verbose) console.log('templateFileName: ' + templateFileName);
-    if (verbose) console.log('fileName: ' + fileName);
+var generateDoc = function(templateFileName, view, outFileName) {
+    var buffer = '';
 
-    extend(view, context, convertMarkdown(serviceDesc));
+    if (verbose) console.log('templateFileName: ' + templateFileName);
+    if (verbose) console.log('fileName: ' + outFileName);
 
     if (verbose) console.log('template context:', JSON.stringify(view, null, '  '));
     mu.compileAndRender(templateFileName, view)
@@ -97,16 +90,33 @@ var generateServiceDoc = function(serviceDesc, context) {
         })
         .on('end', function() {
             // console.log('Writing to: ' + fileName + " " + buffer);
-            fs.writeFile(fileName, buffer, function(err) {
+            fs.writeFile(outFileName, buffer, function(err) {
                 if (err) throw err;
             });
         });
 };
 
+var generateDocIndex = function(context) {
+    var templateFileName = path.join(process.cwd(), 'templates', 'docs', 'index.html'),
+        outFileName = path.join(process.cwd(), 'docs/index.html');
+
+    console.log('Generate document index');
+    generateDoc(templateFileName, context, outFileName);
+};
+
+var generateServiceDoc = function(serviceDesc, context) {
+    var templateFileName = path.join(process.cwd(), 'templates', 'docs', 'restapi.html'),
+        outFileName = path.join(process.cwd(), 'docs', generateDocFileName(serviceDesc)),
+        view = {};
+    console.log('Generate service doc: ' + serviceDesc.name);
+
+    extend(view, context, convertMarkdown(serviceDesc));
+    generateDoc(templateFileName, view, outFileName);
+};
+
 var mapOwnProperties = function(obj, func) {
     for (var property in obj) {
         if (obj.hasOwnProperty(property)) {
-            // console.log('mapOwnProperty obj[' + property + '] : ' + obj[property]);
             func(obj[property], property);
         }
     }
@@ -123,13 +133,16 @@ exports.update = function (context, mode) {
 
     mu.root = path.resolve('templates/docs/');
 
+    // Load service descriptors
     var services = require('./services.js');
     services.load(process.cwd());
 
+    // Prepare the list of all services for generation of documents
     var allServices = services.getServices();
     if (verbose) console.log('All Services: ', allServices);
 
     var serviceDocNames = [];
+    context.serviceDocNames = serviceDocNames;
     mapOwnProperties( allServices, function( serviceDesc, property ) {
         serviceDocNames.push({
             name: serviceDesc.name,
@@ -137,8 +150,11 @@ exports.update = function (context, mode) {
         });
     });
 
+    // Generate the documents for each service
     mapOwnProperties( allServices, function( serviceDesc, property ) {
-        context.serviceDocNames = serviceDocNames;
         generateServiceDoc(serviceDesc, context);
     });
+
+    // Generate the index.html
+    generateDocIndex(context);
 };
