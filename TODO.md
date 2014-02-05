@@ -1,9 +1,9 @@
 # Implemented
 - restapi - "use strict" and try jshint
+- add .gitignore to project template
 
 # TODO
 - bugfix:
-    - add .gitignore
     - default response is binary without content-type header
 
 - Generate an index.html page for docs, that lists all the services
