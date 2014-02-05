@@ -1,3 +1,6 @@
+#!/usr/bin/env node
+'use strict';
+
 /**
  * Service Loader for the restapi tool
  */
@@ -29,7 +32,7 @@ var loadConfig = function(configFileName) {
 };
 
 var validateServiceParameter = function (parameter) {
-    parameter.should.be.an.Object;
+    parameter.should.be.instanceof(Object);
     parameter.should.have.property('name');
     parameter.should.have.property('kind');
     ['URL', 'QUERY', 'BODY'].should.include(parameter.kind);
@@ -41,27 +44,27 @@ var validateServiceParameter = function (parameter) {
 };
 
 var validateServiceStatusCode = function (statusCode) {
-    statusCode.should.be.an.Object;
+    statusCode.should.be.instanceof(Object);
     statusCode.should.have.property('statusCode');
     statusCode.should.have.property('reason');
 };
 
 var validateServiceCookie = function (cookie) {
-    cookie.should.be.an.Object;
+    cookie.should.be.instanceof(Object);
     cookie.should.have.property('Cookie');
 };
 
 var validateServiceExample = function (example) {
-    example.should.be.an.Object;
+    example.should.be.instanceof(Object);
     example.should.have.property('url');
 
     example.should.have.property('request');
-    example.request.should.be.an.Object;
+    example.request.should.be.instanceof(Object);
     example.request.should.have.property('cookies').and.be.an.instanceOf(Array);
     example.request.should.have.property('headers').and.be.an.instanceOf(Array);
 
     example.should.have.property('response');
-    example.response.should.be.an.Object;
+    example.response.should.be.instanceof(Object);
     example.response.should.have.property('cookies').and.be.an.instanceOf(Array);
     example.response.should.have.property('headers').and.be.an.instanceOf(Array);
     example.response.should.have.property('statusCode');
@@ -69,20 +72,20 @@ var validateServiceExample = function (example) {
 };
 
 var validateServiceDescriptor = function (serviceDesc) {
-    serviceDesc.should.be.an.Object;
+    serviceDesc.should.be.instanceof(Object);
     serviceDesc.should.have.property('name');
     serviceDesc.should.have.property('description');
     serviceDesc.should.have.property('style');
     serviceDesc.should.have.property('urlPattern');
     serviceDesc.should.have.property('methods');
 
-    serviceDesc.methods.should.be.an.Object;
+    serviceDesc.methods.should.be.instanceof(Object);
 
     for( var method in serviceDesc.methods ) {
         if( serviceDesc.methods.hasOwnProperty(method) ) {
             ['GET', 'PUT', 'POST', 'DELETE'].should.include( method );
             var serviceMethod = serviceDesc.methods[method];
-            serviceMethod.should.be.an.Object;
+            serviceMethod.should.be.instanceof(Object);
             serviceMethod.should.have.property('summary');
             serviceMethod.should.have.property('notes');
             // serviceMethod.should.have.property('implementation');
@@ -91,14 +94,14 @@ var validateServiceDescriptor = function (serviceDesc) {
             serviceMethod.should.have.property('testCases');
 
             serviceMethod.request.should.have.property('parameters').and.be.an.instanceOf(Array);
-            serviceMethod.request.parameters.forEach(function(parameter){validateServiceParameter(parameter)});
+            serviceMethod.request.parameters.forEach(function(parameter){validateServiceParameter(parameter);});
 
             // serviceMethod.should.have.property('statusCodes').and.be.an.instanceOf(Array);
             // serviceMethod.statusCodes.forEach(function(statusCode){validateServiceStatusCode(statusCode)});
 
             serviceMethod.request.should.have.property('cookies').and.be.an.instanceOf(Array);
             // TODO: validate the array items
-            serviceMethod.request.cookies.forEach(function(cookie){validateServiceCookie(cookie)});
+            serviceMethod.request.cookies.forEach(function(cookie){validateServiceCookie(cookie);});
 
             // serviceMethod.should.have.property('examples').and.be.a('object');
             // TODO: validate the array items
@@ -178,7 +181,7 @@ exports.getMockResponseBody = function(method, serviceDesc) {
     serviceDesc.methods[method].responses.forEach(function(response) {
         if (response.name === 'OK' &&
             typeof response.mockBody != 'undefined' &&
-            response.mockBody != null) {
+            response.mockBody !== null) {
             mockBody = response.mockBody;
             contentType = findHeaderValue( response.headers, 'Content-Type' );
         }
@@ -280,7 +283,7 @@ exports.getAllTestCases = function () {
                         });
                     });
                 }
-            };
+            }
         }
     }
     return testCases;

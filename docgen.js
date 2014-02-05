@@ -1,3 +1,6 @@
+#!/usr/bin/env node
+'use strict';
+
 var generator = require('./generator.js'),
     mu = require('mu2'),
     fs = require('fs'),
@@ -38,7 +41,7 @@ var initDocsFolder = function(context, mode) {
 };
 
 var generateDocFileName = function (serviceDesc) {
-    console.log('generateDocFileName', serviceDesc);
+    // console.log('generateDocFileName', serviceDesc);
     return serviceDesc.name.toLowerCase().replace(/ /g, "_") + '.html';
 };
 
@@ -48,12 +51,12 @@ var generateServiceDoc = function(serviceDesc, context) {
         buffer = '',
         view = {};
     console.log('Generate service doc: ' + serviceDesc.name);
-    verbose && console.log('templateFileName: ' + templateFileName);
-    verbose && console.log('fileName: ' + fileName);
+    if (verbose) console.log('templateFileName: ' + templateFileName);
+    if (verbose) console.log('fileName: ' + fileName);
 
     extend(view, context, serviceDesc);
 
-    verbose && console.log('template context:', JSON.stringify(view, null, '  '));
+    if (verbose) console.log('template context:', JSON.stringify(view, null, '  '));
     mu.compileAndRender(templateFileName, view)
         .on('data', function(c) {
             buffer += c.toString();
@@ -90,7 +93,7 @@ exports.update = function (context, mode) {
     services.load(process.cwd());
 
     var allServices = services.getServices();
-    verbose && console.log('All Services: ', allServices);
+    if (verbose) console.log('All Services: ', allServices);
 
     var serviceDocNames = [];
     mapOwnProperties( allServices, function( serviceDesc ) {

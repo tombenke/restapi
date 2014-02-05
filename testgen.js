@@ -1,3 +1,6 @@
+#!/usr/bin/env node
+'use strict';
+
 var mu = require('mu2'),
     fs = require('fs'),
     extend = require('./extend.js');
@@ -22,10 +25,10 @@ exports.update = function ( config, overwrite, mode ) {
 
     var services = require('./services.js');
     services.load(process.cwd());
-    verbose && console.log(services.getServices());
+    if (verbose) console.log(services.getServices());
 
     var allTestCases = services.getAllTestCases();
-    verbose && console.log('All TestCases: ', allTestCases);
+    if (verbose) console.log('All TestCases: ', allTestCases);
 
     allTestCases.forEach(function(item) {
         var testCase = item.testCase,
@@ -33,8 +36,8 @@ exports.update = function ( config, overwrite, mode ) {
             fileName = path.join(process.cwd(), 'test', testCase.name + '.js'),
             buffer = '',
             view = {};
-        verbose && console.log('templateFileName: ' + templateFileName);
-        verbose && console.log('fileName: ' + fileName);
+        if (verbose) console.log('templateFileName: ' + templateFileName);
+        if (verbose) console.log('fileName: ' + fileName);
 
         extend(view, config, testCase);
 

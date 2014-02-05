@@ -1,12 +1,28 @@
+# Implemented
+- restapi - "use strict" and try jshint
+
 # TODO
+- bugfix:
+    - add .gitignore
+    - default response is binary without content-type header
+
 - Generate an index.html page for docs, that lists all the services
   - List of services:
     - Summary on Methods
         - show: params list
         - sample call
     - Link to the details page
+
+- Use Markdown rendering for textual fields in docs, such as: description, name, etc.
+
+- Upgrade to new modules
+    - http-proxy v1.0.0 total api refactor
+    - express (/connect)
+
 - Watch the http://www.restapitutorial.com/lessons/whatisrest.html
+
 - Set body background-color: rgb(249, 249, 249);
+
 - Do cleansing in field names of service.yml
   - Study the communication to a REST service with FireBug (see details)
   - Ideas from the programmable web
@@ -43,7 +59,6 @@
     - [0-9][A-Z]|[A-Z][0-9]|[A-Z]{2})([0-9]{3,4})([A-Z]?)
     - [A-Z]{3}
 - Description of response fields (JSON schema, data model descriptor, meta...?)
-- Use Markdown rendering for textual fields in docs, such as: description, name, etc.
 - Rename templates to use .mu postfixes, and put them onto whitelist during dir-copy of prjgen
 - Read parameters for docgen and prjgen contexts (replace hardcoded objects)
 - Dynamically require implementation modules into the mock server

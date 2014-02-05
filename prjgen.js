@@ -1,3 +1,6 @@
+#!/usr/bin/env node
+'use strict';
+
 var generator = require('./generator.js'),
     path = require('path');
 var verbose = false;
@@ -62,4 +65,4 @@ exports.create = function (context, mode) {
             generator.processTemplate(template, context);
         });
     }
-}
+};

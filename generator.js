@@ -1,3 +1,6 @@
+#!/usr/bin/env node
+'use strict';
+
 var mu = require('mu2'),
     fs = require('fs'),
     path = require('path'),
@@ -20,7 +23,7 @@ exports.createDirectoryTree = function(rootDirName, projectTree, removeIfExist) 
     fs.mkdirSync(rootDirPath);
     projectTree.forEach( function(dir) {
         var dirToCreate = path.resolve( path.join( rootDirName, dir));
-        verbose && console.log('Create "' + dirToCreate + '"');
+        if (verbose) console.log('Create "' + dirToCreate + '"');
         fs.mkdirSync(dirToCreate);
     });
     return true;
@@ -30,9 +33,9 @@ exports.copyDir = function(dirName, sourceBaseDir, targetBaseDir, context, opts)
     var sourceDirName = path.resolve(sourceBaseDir, dirName),
         destDirName = path.resolve(targetBaseDir, dirName);
 
-    verbose && console.log('Copy dir from: ' + sourceDirName + ' to: ' + destDirName);
+    if (verbose) console.log('Copy dir from: ' + sourceDirName + ' to: ' + destDirName);
     wrench.copyDirSyncRecursive(sourceDirName, destDirName, opts);
-}
+};
 
 exports.copyFile = function(fileName, sourceBaseDir, targetBaseDir, context) {
         console.log('copyFile...' + fileName);
@@ -40,17 +43,17 @@ exports.copyFile = function(fileName, sourceBaseDir, targetBaseDir, context) {
     var sourceFileName = path.resolve(sourceBaseDir, fileName),
         destFileName = path.resolve(targetBaseDir, fileName);
 
-    verbose && console.log('Copy file from: ' + sourceFileName + ' to: ' + destFileName);
+    if (verbose) console.log('Copy file from: ' + sourceFileName + ' to: ' + destFileName);
     fs.writeFileSync(destFileName, fs.readFileSync(sourceFileName));
-}
+};
 
 exports.processTemplate = function(template, context) {
     var templateFileName = path.resolve(__dirname, "templates/project", template),
         fileName = path.resolve(context.projectName, template),
         buffer = '',
         view = {};
-    verbose && console.log('templateFileName: ' + templateFileName);
-    verbose && console.log('fileName: ' + fileName);
+    if (verbose) console.log('templateFileName: ' + templateFileName);
+    if (verbose) console.log('fileName: ' + fileName);
 
     extend(view, context);
 
@@ -63,5 +66,4 @@ exports.processTemplate = function(template, context) {
                 if (err) throw err;
             });
         });
-}
-
+};

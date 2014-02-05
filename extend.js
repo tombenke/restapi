@@ -1,3 +1,6 @@
+#!/usr/bin/env node
+'use strict';
+
 function extend() {
   var options, name, src, copy, copyIsArray, clone, target = arguments[0] || {},
   i = 1,
