@@ -132,7 +132,7 @@ In general, you can modify the content of the files and folders the `restapi cre
 
 The services can be specified under the `services` folder. Each service will be activated only if it is added to the `config.yml` file, which can be found under the project root directory.
 
-The newly created project contains a sample service descriptor (`services/monitoring/isAlive/service.yml`) and the `config.yml` configuration file. This new setup can be used to verify the working of the project without modifying the files. The sample desciptor also can be used as a template to write your own definitions.
+The newly created project contains a sample service descriptor (`services/monitoring/isAlive/service.yml`) and the `config.yml` configuration file. This new setup can be used to verify the working of the project without modifying the files. The sample desciptor also can be used as a template to write your own definitions. You can use Markdown format text in fields named like: 'description', 'summary' and 'details'.
 
 Note: The service descriptors you create will not be used automatically. You have to 
 manually list them under the `services` property of the `config.yml` file:

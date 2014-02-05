@@ -7,6 +7,7 @@ var generator = require('./generator.js'),
     path = require('path'),
     extend = require('./extend.js');
 var verbose = false;
+var marked = require('marked');
 
 var initDocsFolder = function(context, mode) {
      if ( generator.createDirectoryTree('docs', [
@@ -45,6 +46,39 @@ var generateDocFileName = function (serviceDesc) {
     return serviceDesc.name.toLowerCase().replace(/ /g, "_") + '.html';
 };
 
+/**
+ * Converts each markdown-format fields of the view
+ * @param  {[type]} doc [description]
+ * @return {[type]}     [description]
+ */
+var convertMarkdown = function(doc) {
+    var newDoc = {};
+
+    mapOwnProperties(doc, function(property, propertyName) {
+        if (typeof property === 'object') {
+            if (property instanceof Array ) {
+                newDoc[propertyName] = [];
+                property.forEach(function(item) {
+                    newDoc[propertyName].push(convertMarkdown(item));
+                });
+            } else {
+                newDoc[propertyName] = convertMarkdown(property);
+            }
+        } else {
+            if (propertyName === 'description' ||
+                propertyName === 'summary' ||
+                propertyName === 'details' ) {
+                console.log('convert ' + propertyName, property);
+                newDoc[propertyName] = marked(property);
+            } else {
+                newDoc[propertyName] = property;
+            }
+        }
+    });
+
+    return newDoc;
+};
+
 var generateServiceDoc = function(serviceDesc, context) {
     var templateFileName = path.join(process.cwd(), 'templates', 'docs', 'restapi.html'),
         fileName = path.join(process.cwd(), 'docs', generateDocFileName(serviceDesc)),
@@ -54,7 +88,7 @@ var generateServiceDoc = function(serviceDesc, context) {
     if (verbose) console.log('templateFileName: ' + templateFileName);
     if (verbose) console.log('fileName: ' + fileName);
 
-    extend(view, context, serviceDesc);
+    extend(view, context, convertMarkdown(serviceDesc));
 
     if (verbose) console.log('template context:', JSON.stringify(view, null, '  '));
     mu.compileAndRender(templateFileName, view)
@@ -73,7 +107,7 @@ var mapOwnProperties = function(obj, func) {
     for (var property in obj) {
         if (obj.hasOwnProperty(property)) {
             // console.log('mapOwnProperty obj[' + property + '] : ' + obj[property]);
-            func(obj[property]);
+            func(obj[property], property);
         }
     }
 };
@@ -96,14 +130,14 @@ exports.update = function (context, mode) {
     if (verbose) console.log('All Services: ', allServices);
 
     var serviceDocNames = [];
-    mapOwnProperties( allServices, function( serviceDesc ) {
+    mapOwnProperties( allServices, function( serviceDesc, property ) {
         serviceDocNames.push({
             name: serviceDesc.name,
             docFileName: generateDocFileName(serviceDesc)
         });
     });
 
-    mapOwnProperties( allServices, function( serviceDesc ) {
+    mapOwnProperties( allServices, function( serviceDesc, property ) {
         context.serviceDocNames = serviceDocNames;
         generateServiceDoc(serviceDesc, context);
     });

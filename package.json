@@ -31,6 +31,7 @@
     "should": "2.0.2",
     "mu2": "*",
     "mocha": "*",
-    "superagent": "*"
+    "superagent": "*",
+    "marked": "~0.3.1"
   }
 }

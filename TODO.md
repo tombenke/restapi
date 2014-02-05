@@ -1,6 +1,7 @@
 # Implemented
 - restapi - "use strict" and try jshint
 - add .gitignore to project template
+- Use Markdown rendering for textual fields in docs, such as: description, summary and details
 
 # TODO
 - bugfix:
@@ -12,8 +13,6 @@
         - show: params list
         - sample call
     - Link to the details page
-
-- Use Markdown rendering for textual fields in docs, such as: description, name, etc.
 
 - Upgrade to new modules
     - http-proxy v1.0.0 total api refactor
@@ -41,13 +40,13 @@
         SSL Support: Yes / No
         Read-only Without Login:
      
-- Put a restapi online-help beside the generated docs, wih a link to it, from the Header section
+- Put a restapi online-help beside the generated docs, with a link to it, from the Header section
 
 - Write documentation to the service.yml
 - Finish the validation of service.yml with error messages
 - Write a support command to generate JSON schema and service.yml from JSON sample data file.
 - Generate HTTP headers (with parameters) from default service call.
-- Generate Cookies headers (with parameters) from default service call.
+- Generate Cookies, headers (with parameters) from default service call.
 
 # ------------------
 - Study RSDL, and may implement a converter to/from.
