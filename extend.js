@@ -82,15 +82,15 @@ function extend() {
           } else {
             clone = src && jQuery.isPlainObject(src) ? src : {};
           }
-              // WARNING: RECURSION
-              target[name] = extend(deep, clone, copy);
-            } else if (copy !== undefined) {
-              target[name] = copy;
-            }
-          }
+          // WARNING: RECURSION
+          target[name] = extend(deep, clone, copy);
+        } else if (copy !== undefined) {
+          target[name] = copy;
         }
       }
-      return target;
     }
+  }
+  return target;
+}
 
-    module.exports = extend;
+module.exports = extend;
