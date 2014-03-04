@@ -1,5 +1,9 @@
 # restapi - A simple Node.js module to document, emulate and test RESTful APIs. 
 
+This code is obsolete.
+Use [rest-tool](http://tombenke.github.io/rest-tool/) instead of this.
+
+
 ## Installation
 
 ### Preprequisites:
