@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/*jslint node: true */
 'use strict';
 
 var generator = require('./generator.js'),

@@ -1,20 +1,20 @@
 # Implemented
-- restapi - "use strict" and try jshint
-- add .gitignore to project template
-- Use Markdown rendering for textual fields in docs, such as: description, summary and details
-- Generate an index.html page for docs, that lists all the services
+- [X] restapi - "use strict" and try jshint
+- [X] add .gitignore to project template
+- [X] Use Markdown rendering for textual fields in docs, such as: description, summary and details
+- [X] Generate an index.html page for docs, that lists all the services
   - List of services
   - Link to the details page
 
 # nextActions:
-- bugfix:
+- [ ] bugfix:
     - default response is binary without content-type header
 
-- Watch the http://www.restapitutorial.com/lessons/whatisrest.html
+- [ ] Watch the http://www.restapitutorial.com/lessons/whatisrest.html
 
-- Set body background-color: rgb(249, 249, 249);
+- [ ] Set body background-color: rgb(249, 249, 249);
 
-- Do cleansing in field names of service.yml
+- [ ] Do cleansing in field names of service.yml
   - Study the communication to a REST service with FireBug (see details)
   - Ideas from the programmable web
     config.yml
@@ -32,18 +32,18 @@
         SSL Support: Yes / No
         Read-only Without Login:
      
-- Put a restapi online-help beside the generated docs, with a link to it, from the Header section
+- [ ] Put a restapi online-help beside the generated docs, with a link to it, from the Header section
 
-- Write documentation to the service.yml
-- Finish the validation of service.yml with error messages
-- Write a support command to generate JSON schema and service.yml from JSON sample data file.
-- Generate HTTP headers (with parameters) from default service call.
-- Generate Cookies, headers (with parameters) from default service call.
-- Extend docs/index.html:
+- [ ] Write documentation to the service.yml
+- [ ] Finish the validation of service.yml with error messages
+- [ ] Write a support command to generate JSON schema and service.yml from JSON sample data file.
+- [ ] Generate HTTP headers (with parameters) from default service call.
+- [ ] Generate Cookies, headers (with parameters) from default service call.
+- [ ] Extend docs/index.html:
   - Summary on Methods
     - show: params list
     - sample call
-- Upgrade to new modules
+- [ ] Upgrade to new modules
     - http-proxy v1.0.0 total api refactor
     - express (/connect)
 
